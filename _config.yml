@@ -10,3 +10,8 @@ encoding:       UTF-8
 # Style
 sass:
     style:      compressed
+
+# Ignore
+exclude: [
+    '*.ts'
+]

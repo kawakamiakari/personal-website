@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "site/js/",
+    },
+    "include": [
+        "site/_ts/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}
