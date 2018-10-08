@@ -1,3 +1,11 @@
 # Server
 source:         "site"
 destination:    ./docs
+baseurl:        ""
+
+# Social
+title:          kawakami akari
+
+# Style
+sass:
+    style:      compressed

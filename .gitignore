@@ -3,4 +3,5 @@ _gh_pages
 _site
 
 # Folders to ignore
+.sass-cache
 node_modules
