@@ -5,6 +5,7 @@ baseurl:        ""
 
 # Social
 title:          kawakami akari
+encoding:       UTF-8
 
 # Style
 sass:

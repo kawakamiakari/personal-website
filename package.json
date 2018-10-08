@@ -12,7 +12,9 @@
   "author": "",
   "license": "",
   "homepage": "https://kawakamiakari.github.io/",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^4.1.3",
     "jekyll": "^3.0.0-beta1"
   }
 }
