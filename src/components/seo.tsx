@@ -11,7 +11,7 @@ function SEO({ description, lang, meta, keywords, title }) {
         const metaDescription =
           description || data.site.siteMetadata.description;
         return (
-          <Helmetß
+          <Helmet
             htmlAttributes={{
               lang,
             }}
