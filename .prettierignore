@@ -1,1 +1,5 @@
+.cache
+package.json
+package-lock.json
+public
 src/images/**/*

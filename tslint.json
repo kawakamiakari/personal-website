@@ -9,6 +9,9 @@
   ],
   "rules": {
     "import-name": false,
-    "prettier": [true]
+    "prettier": [true],
+    "variable-name": {
+      "options": ["allow-pascal-case"]
+    }
   }
 }
