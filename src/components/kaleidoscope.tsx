@@ -35,6 +35,10 @@ class Particle {
     this.color = props.color;
   }
 
+  public getPos() {
+    return { x: this.x, y: this.y };
+  }
+
   public draw() {
     const ctx = this.ctx;
     ctx.beginPath();
@@ -53,6 +57,11 @@ class Particle {
     ctx.fill();
     ctx.closePath();
   }
+
+  public updatePosition(x = this.x, y = this.y) {
+    this.x = x;
+    this.y = y;
+  }
 }
 
 class Kaleidoscope extends Component<Props, State> {
@@ -62,15 +71,38 @@ class Kaleidoscope extends Component<Props, State> {
   private animationID: number;
   private particles: Particle[] = [];
 
+  // パーティクルの本体は以下の範囲内にある
+  // y < incliA * x               原点と中心を通る直線
+  // y > incliB * x + interceptB  中心と原点を回転させた点を通る直線
+  // y > incliC * x               原点と原点を回転させた点を通る直線
+  private incliA: number;
+  private incliB: number;
+  private interceptB: number;
+  private incliC: number;
+
   constructor(props) {
     super(props);
+
+    const centerX = props.width / 2;
+    const centerY = props.height / 2;
+    const rad = (2 * Math.PI) / props.corner;
+    const p = rotate(0, 0, centerX, centerY, rad);
+
     this.state = {
-      centerX: props.width / 2,
-      centerY: props.height / 2,
-      rad: (2 * Math.PI) / props.corner,
+      centerX,
+      centerY,
+      rad,
     };
+
+    // キャンバス関係
     this.canvas = React.createRef();
     this.animationID = null;
+
+    // パーティクルの存在範囲
+    this.incliA = centerY / centerX;
+    this.incliB = (p.y - centerY) / (p.x - centerX);
+    this.interceptB = centerY - this.incliB * centerX;
+    this.incliC = p.y / p.x;
   }
 
   public componentDidMount() {
@@ -103,50 +135,58 @@ class Kaleidoscope extends Component<Props, State> {
   }
 
   private initParticles() {
-    const centerX = this.state.centerX;
-    const centerY = this.state.centerY;
-    const p = rotate(0, 0, centerX, centerY, this.state.rad);
-    const la = centerY / centerX;
-    const ra = (p.y - centerY) / (p.x - centerX);
-    const rb = centerY - ra * p.y;
-    const ba = p.y / p.x;
-
-    const maxX = centerX;
-    let x = getRandomInt(maxX);
-    let minY = Math.max(ra * x + rb, ba * x);
-    let maxY = la * x;
+    let p = this.getInitialParticlePos();
     this.particles.push(
       new Particle({
         color: '#ff0000',
         ctx: this.getContext(),
-        x,
-        y: getRandomInt(maxY - minY) + minY,
+        x: p.x,
+        y: p.y,
       })
     );
 
-    x = getRandomInt(maxX);
-    minY = Math.max(ra * x + rb, ba * x);
-    maxY = la * x;
+    p = this.getInitialParticlePos();
     this.particles.push(
       new Particle({
         color: '#00ff00',
         ctx: this.getContext(),
-        x,
-        y: getRandomInt(maxY - minY) + minY,
+        x: p.x,
+        y: p.y,
       })
     );
 
-    x = getRandomInt(maxX);
-    minY = Math.max(ra * x + rb, ba * x);
-    maxY = la * x;
+    p = this.getInitialParticlePos();
     this.particles.push(
       new Particle({
         color: '#0000ff',
         ctx: this.getContext(),
-        x,
-        y: getRandomInt(maxY - minY) + minY,
+        x: p.x,
+        y: p.y,
       })
     );
+  }
+
+  private getInitialParticlePos() {
+    const p = rotate(
+      0,
+      0,
+      this.state.centerX,
+      this.state.centerY,
+      this.state.rad
+    );
+
+    const x = getRandomInt(this.state.centerX);
+    let minY;
+    let maxY;
+    if (p.x > this.state.centerX) {
+      maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
+      minY = this.incliC * x;
+    } else {
+      maxY = this.incliA * x;
+      minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+    }
+
+    return { x, y: getRandomInt(maxY - minY) + minY };
   }
 
   private initCanvas() {
@@ -177,6 +217,34 @@ class Kaleidoscope extends Component<Props, State> {
     });
 
     this.particles.forEach(particle => {
+      const rotetedP = rotate(0, 0, centerX, centerY, rad);
+      const p = particle.getPos();
+      let x = p.x;
+      let y = p.y + 1;
+      if (rotetedP.x > this.state.centerX) {
+        const maxY = Math.min(
+          this.incliA * p.x,
+          this.incliB * p.x + this.interceptB
+        );
+        const minY = this.incliC * p.x;
+        if (y > maxY || y < minY) {
+          const newP = this.getInitialParticlePos();
+          x = newP.x;
+          y = newP.y;
+        }
+      } else {
+        const maxY = this.incliA * p.x;
+        const minY = Math.max(
+          this.incliB * p.x + this.interceptB,
+          this.incliC * p.x
+        );
+        if (y > maxY || y < minY) {
+          const newP = this.getInitialParticlePos();
+          x = newP.x;
+          y = newP.y;
+        }
+      }
+      particle.updatePosition(x, y);
       particle.draw();
       _.times(this.props.corner, i => {
         particle.drawAtRotatedPosition(centerX, centerY, rad * i);
