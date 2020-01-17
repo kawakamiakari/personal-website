@@ -1,3 +1,4 @@
+/* tslint:disable:max-classes-per-file */
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -9,7 +10,7 @@ interface Props {
 }
 
 interface State {
-  drawing: boolean;
+  rad: number;
 }
 
 const style = {
@@ -21,12 +22,35 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function rotation2D(x, y, centerX, centerY, rad) {
+function rotate(x, y, centerX, centerY, rad) {
   const X =
     Math.cos(rad) * (x - centerX) - Math.sin(rad) * (y - centerY) + centerX;
   const Y =
     Math.sin(rad) * (x - centerX) + Math.cos(rad) * (y - centerY) + centerY;
   return { X, Y };
+}
+class Particle {
+  private ctx: CanvasRenderingContext2D;
+  private x: number;
+  private y: number;
+  private color: string;
+
+  constructor(props) {
+    this.ctx = props.ctx;
+    this.x = getRandomInt(100);
+    this.y = getRandomInt(100);
+    this.color = props.color;
+  }
+
+  public draw() {
+    const ctx = this.ctx;
+
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.rect(this.x, this.y, 20, 30);
+    ctx.fill();
+    ctx.closePath();
+  }
 }
 
 class Kaleidoscope extends Component<Props, State> {
@@ -34,11 +58,11 @@ class Kaleidoscope extends Component<Props, State> {
   public static defaultProps;
   private canvas: React.RefObject<HTMLCanvasElement>;
   private animationID: number;
+  private particles: Particle[] = [];
 
   constructor(props) {
     super(props);
-    this.state = { drawing: false };
-
+    this.state = { rad: (Math.PI * 2) / props.corner };
     this.canvas = React.createRef();
     this.animationID = null;
   }
@@ -62,14 +86,7 @@ class Kaleidoscope extends Component<Props, State> {
         ref={this.canvas}
         width={this.props.width}
         height={this.props.height}
-        onMouseDown={e =>
-          this.startDrawing(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
-        }
-        onMouseUp={() => this.endDrawing()}
-        onMouseLeave={() => this.endDrawing()}
-        onMouseMove={e =>
-          this.draw(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
-        }
+        onMouseMove={() => {}}
         style={style}
       />
     );
@@ -79,23 +96,16 @@ class Kaleidoscope extends Component<Props, State> {
     return this.canvas.current.getContext('2d');
   }
 
-  private startDrawing(x, y) {
-    this.setState({ drawing: true });
-    const ctx = this.getContext();
-    ctx.moveTo(x, y);
-  }
-
-  private draw(x, y) {
-    if (!this.state.drawing) {
-      return;
-    }
-    const ctx = this.getContext();
-    ctx.lineTo(x, y);
-    ctx.stroke();
-  }
-
-  private endDrawing() {
-    this.setState({ drawing: false });
+  private initParticles() {
+    this.particles.push(
+      new Particle({ ctx: this.getContext(), color: '#ff0000' })
+    );
+    this.particles.push(
+      new Particle({ ctx: this.getContext(), color: '#00ff00' })
+    );
+    this.particles.push(
+      new Particle({ ctx: this.getContext(), color: '#0000ff' })
+    );
   }
 
   private initCanvas() {
@@ -113,11 +123,11 @@ class Kaleidoscope extends Component<Props, State> {
 
     const centerX = this.props.width / 2;
     const centerY = this.props.height / 2;
-    const rad = (Math.PI * 2) / this.props.corner;
+    const rad = this.state.rad;
 
     ctx.beginPath();
     _.times(this.props.corner, i => {
-      const p = rotation2D(0, 0, centerX, centerY, rad * i);
+      const p = rotate(0, 0, centerX, centerY, rad * i);
       ctx.moveTo(centerX, centerY);
       ctx.lineTo(p.X, p.Y);
     });
@@ -129,6 +139,10 @@ class Kaleidoscope extends Component<Props, State> {
 
     ctx.closePath();
     ctx.stroke();
+
+    this.particles.forEach(particle => {
+      particle.draw();
+    });
 
     this.animationID = requestAnimationFrame(() => this.renderCanvas());
   }
