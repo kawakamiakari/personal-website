@@ -6,8 +6,10 @@ import React, { Component } from 'react';
 import { getRandomInt, rotate } from '../utils/math';
 
 interface Props {
+  colors: string[];
   corner: number;
   height: number;
+  quantity: number;
   width: number;
 }
 
@@ -58,9 +60,8 @@ class Particle {
     ctx.closePath();
   }
 
-  public updatePosition(x = this.x, y = this.y) {
-    this.x = x;
-    this.y = y;
+  public updatePosition() {
+    this.y += 1;
   }
 }
 
@@ -135,35 +136,17 @@ class Kaleidoscope extends Component<Props, State> {
   }
 
   private initParticles() {
-    let p = this.getInitialParticlePos();
-    this.particles.push(
-      new Particle({
-        color: '#ff0000',
-        ctx: this.getContext(),
-        x: p.x,
-        y: p.y,
-      })
-    );
-
-    p = this.getInitialParticlePos();
-    this.particles.push(
-      new Particle({
-        color: '#00ff00',
-        ctx: this.getContext(),
-        x: p.x,
-        y: p.y,
-      })
-    );
-
-    p = this.getInitialParticlePos();
-    this.particles.push(
-      new Particle({
-        color: '#0000ff',
-        ctx: this.getContext(),
-        x: p.x,
-        y: p.y,
-      })
-    );
+    _.times(this.props.quantity, i => {
+      const p = this.getInitialParticlePos();
+      this.particles.push(
+        new Particle({
+          color: this.props.colors[getRandomInt(this.props.colors.length)],
+          ctx: this.getContext(),
+          x: p.x,
+          y: p.y,
+        })
+      );
+    });
   }
 
   private getInitialParticlePos() {
@@ -189,6 +172,33 @@ class Kaleidoscope extends Component<Props, State> {
     return { x, y: getRandomInt(maxY - minY) + minY };
   }
 
+  private isInRange(x, y) {
+    let retval = true;
+
+    const p = rotate(
+      0,
+      0,
+      this.state.centerX,
+      this.state.centerY,
+      this.state.rad
+    );
+    if (p.x > this.state.centerX) {
+      const maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
+      const minY = this.incliC * x;
+      if (y >= maxY || y <= minY) {
+        retval = false;
+      }
+    } else {
+      const maxY = this.incliA * x;
+      const minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+      if (y >= maxY || y <= minY) {
+        retval = false;
+      }
+    }
+
+    return retval;
+  }
+
   private initCanvas() {
     // リサイズ時、アニメーションを停止
     if (this.animationID !== null) {
@@ -208,43 +218,39 @@ class Kaleidoscope extends Component<Props, State> {
 
     _.times(this.props.corner, i => {
       ctx.beginPath();
-      const p = rotate(0, 0, centerX, centerY, rad * i);
-      ctx.strokeStyle = `rgb(${255 - 40 * i}, ${getRandomInt(255)}, ${40 * i})`;
+      ctx.strokeStyle = `rgb(150, 150, 150)`;
       ctx.moveTo(centerX, centerY);
+      const p = rotate(0, 0, centerX, centerY, rad * i);
       ctx.lineTo(p.x, p.y);
       ctx.closePath();
       ctx.stroke();
     });
 
+    // 位置更新
     this.particles.forEach(particle => {
-      const rotetedP = rotate(0, 0, centerX, centerY, rad);
+      particle.updatePosition();
+    });
+
+    // 範囲チェック
+    // 範囲外なら削除し、新規追加
+    this.particles = this.particles.filter(particle => {
       const p = particle.getPos();
-      let x = p.x;
-      let y = p.y + 1;
-      if (rotetedP.x > this.state.centerX) {
-        const maxY = Math.min(
-          this.incliA * p.x,
-          this.incliB * p.x + this.interceptB
-        );
-        const minY = this.incliC * p.x;
-        if (y > maxY || y < minY) {
-          const newP = this.getInitialParticlePos();
-          x = newP.x;
-          y = newP.y;
-        }
-      } else {
-        const maxY = this.incliA * p.x;
-        const minY = Math.max(
-          this.incliB * p.x + this.interceptB,
-          this.incliC * p.x
-        );
-        if (y > maxY || y < minY) {
-          const newP = this.getInitialParticlePos();
-          x = newP.x;
-          y = newP.y;
-        }
-      }
-      particle.updatePosition(x, y);
+      return this.isInRange(p.x, p.y);
+    });
+    _.times(this.props.quantity - this.particles.length, i => {
+      const p = this.getInitialParticlePos();
+      this.particles.push(
+        new Particle({
+          color: this.props.colors[getRandomInt(this.props.colors.length)],
+          ctx: this.getContext(),
+          x: p.x,
+          y: p.y,
+        })
+      );
+    });
+
+    // 描画
+    this.particles.forEach(particle => {
       particle.draw();
       _.times(this.props.corner, i => {
         particle.drawAtRotatedPosition(centerX, centerY, rad * i);
@@ -256,14 +262,18 @@ class Kaleidoscope extends Component<Props, State> {
 }
 
 Kaleidoscope.propTypes = {
+  colors: PropTypes.array,
   corner: PropTypes.number,
   height: PropTypes.number,
+  quantity: PropTypes.number,
   width: PropTypes.number,
 };
 
 Kaleidoscope.defaultProps = {
+  colors: ['#FFD1B9', '#564138', '#2E86AB', '#F5F749', '#F24236'],
   corner: 6,
   height: 500,
+  quantity: 10,
   width: 500,
 };
 
