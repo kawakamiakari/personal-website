@@ -37,10 +37,19 @@ class Particle {
 
   public draw() {
     const ctx = this.ctx;
-
     ctx.beginPath();
     ctx.fillStyle = this.color;
     ctx.rect(this.x, this.y, 20, 30);
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  public drawAtRotatedPosition(centerX: number, centerY: number, rad: number) {
+    const ctx = this.ctx;
+    const p = rotate(this.x, this.y, centerX, centerY, rad);
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.rect(p.x, p.y, 20, 30);
     ctx.fill();
     ctx.closePath();
   }
@@ -169,6 +178,9 @@ class Kaleidoscope extends Component<Props, State> {
 
     this.particles.forEach(particle => {
       particle.draw();
+      _.times(this.props.corner, i => {
+        particle.drawAtRotatedPosition(centerX, centerY, rad * i);
+      });
     });
 
     this.animationID = requestAnimationFrame(() => this.renderCanvas());
