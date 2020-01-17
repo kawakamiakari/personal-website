@@ -3,6 +3,8 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { getRandomInt, rotate } from '../utils/math';
+
 interface Props {
   corner: number;
   height: number;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 interface State {
+  centerX: number;
+  centerY: number;
   rad: number;
 }
 
@@ -18,17 +22,6 @@ const style = {
   border: '1px solid gray',
 };
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-function rotate(x, y, centerX, centerY, rad) {
-  const X =
-    Math.cos(rad) * (x - centerX) - Math.sin(rad) * (y - centerY) + centerX;
-  const Y =
-    Math.sin(rad) * (x - centerX) + Math.cos(rad) * (y - centerY) + centerY;
-  return { X, Y };
-}
 class Particle {
   private ctx: CanvasRenderingContext2D;
   private x: number;
@@ -37,8 +30,8 @@ class Particle {
 
   constructor(props) {
     this.ctx = props.ctx;
-    this.x = getRandomInt(100);
-    this.y = getRandomInt(100);
+    this.x = props.x;
+    this.y = props.y;
     this.color = props.color;
   }
 
@@ -62,7 +55,11 @@ class Kaleidoscope extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    this.state = { rad: (Math.PI * 2) / props.corner };
+    this.state = {
+      centerX: props.width / 2,
+      centerY: props.height / 2,
+      rad: (2 * Math.PI) / props.corner,
+    };
     this.canvas = React.createRef();
     this.animationID = null;
   }
@@ -97,14 +94,49 @@ class Kaleidoscope extends Component<Props, State> {
   }
 
   private initParticles() {
+    const centerX = this.state.centerX;
+    const centerY = this.state.centerY;
+    const p = rotate(0, 0, centerX, centerY, this.state.rad);
+    const la = centerY / centerX;
+    const ra = (p.y - centerY) / (p.x - centerX);
+    const rb = centerY - ra * p.y;
+    const ba = p.y / p.x;
+
+    const maxX = centerX;
+    let x = getRandomInt(maxX);
+    let minY = Math.max(ra * x + rb, ba * x);
+    let maxY = la * x;
     this.particles.push(
-      new Particle({ ctx: this.getContext(), color: '#ff0000' })
+      new Particle({
+        color: '#ff0000',
+        ctx: this.getContext(),
+        x,
+        y: getRandomInt(maxY - minY) + minY,
+      })
     );
+
+    x = getRandomInt(maxX);
+    minY = Math.max(ra * x + rb, ba * x);
+    maxY = la * x;
     this.particles.push(
-      new Particle({ ctx: this.getContext(), color: '#00ff00' })
+      new Particle({
+        color: '#00ff00',
+        ctx: this.getContext(),
+        x,
+        y: getRandomInt(maxY - minY) + minY,
+      })
     );
+
+    x = getRandomInt(maxX);
+    minY = Math.max(ra * x + rb, ba * x);
+    maxY = la * x;
     this.particles.push(
-      new Particle({ ctx: this.getContext(), color: '#0000ff' })
+      new Particle({
+        color: '#0000ff',
+        ctx: this.getContext(),
+        x,
+        y: getRandomInt(maxY - minY) + minY,
+      })
     );
   }
 
@@ -121,24 +153,19 @@ class Kaleidoscope extends Component<Props, State> {
     const ctx = this.getContext();
     ctx.clearRect(0, 0, this.props.width, this.props.height);
 
-    const centerX = this.props.width / 2;
-    const centerY = this.props.height / 2;
+    const centerX = this.state.centerX;
+    const centerY = this.state.centerY;
     const rad = this.state.rad;
 
-    ctx.beginPath();
     _.times(this.props.corner, i => {
+      ctx.beginPath();
       const p = rotate(0, 0, centerX, centerY, rad * i);
+      ctx.strokeStyle = `rgb(${255 - 40 * i}, ${getRandomInt(255)}, ${40 * i})`;
       ctx.moveTo(centerX, centerY);
-      ctx.lineTo(p.X, p.Y);
+      ctx.lineTo(p.x, p.y);
+      ctx.closePath();
+      ctx.stroke();
     });
-
-    ctx.strokeStyle = `rgb(${getRandomInt(255)}, ${getRandomInt(
-      255
-    )}, ${getRandomInt(255)})`;
-    ctx.lineTo(getRandomInt(500), getRandomInt(500));
-
-    ctx.closePath();
-    ctx.stroke();
 
     this.particles.forEach(particle => {
       particle.draw();
