@@ -26,15 +26,25 @@ const style = {
 
 class Particle {
   private ctx: CanvasRenderingContext2D;
+  private shape: string;
+  private size: number;
+  private color: string;
+  private opacity: number;
   private x: number;
   private y: number;
-  private color: string;
+  private v: number;
 
   constructor(props) {
+    const shapes = ['square', 'circle', 'wave'];
+
     this.ctx = props.ctx;
+    this.shape = shapes[getRandomInt(shapes.length)];
+    this.size = getRandomInt(20) + 20;
+    this.color = props.color;
+    this.opacity = 0;
     this.x = props.x;
     this.y = props.y;
-    this.color = props.color;
+    this.v = getRandomInt(3) * 0.1 + 0.2; // 0.3〜0.6
   }
 
   public getPos() {
@@ -43,25 +53,54 @@ class Particle {
 
   public draw() {
     const ctx = this.ctx;
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.rect(this.x, this.y, 20, 30);
-    ctx.fill();
-    ctx.closePath();
+    switch (this.shape) {
+      case 'square':
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.size, this.size);
+        ctx.fill();
+        ctx.closePath();
+        break;
+      case 'wave':
+        ctx.lineWidth = this.size / 2;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.size * 0.5, this.y + this.size);
+        ctx.lineTo(this.x + this.size * 1, this.y);
+        ctx.lineTo(this.x + this.size * 1.5, this.y + this.size);
+        ctx.lineTo(this.x + this.size * 2, this.y);
+        ctx.lineTo(this.x + this.size * 2.5, this.y + this.size);
+        ctx.stroke();
+        break;
+      case 'circle':
+      default:
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+        break;
+    }
   }
 
   public drawAtRotatedPosition(centerX: number, centerY: number, rad: number) {
     const ctx = this.ctx;
-    const p = rotate(this.x, this.y, centerX, centerY, rad);
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.rect(p.x, p.y, 20, 30);
-    ctx.fill();
-    ctx.closePath();
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rad);
+    ctx.translate(-centerX, -centerY);
+    this.draw();
+    ctx.restore();
   }
 
-  public updatePosition() {
-    this.y += 1;
+  public update() {
+    if (this.opacity < 1) {
+      this.opacity += 0.2;
+    }
+    this.y += this.v;
   }
 }
 
@@ -211,24 +250,11 @@ class Kaleidoscope extends Component<Props, State> {
   private renderCanvas() {
     const ctx = this.getContext();
     ctx.clearRect(0, 0, this.props.width, this.props.height);
-
-    const centerX = this.state.centerX;
-    const centerY = this.state.centerY;
-    const rad = this.state.rad;
-
-    _.times(this.props.corner, i => {
-      ctx.beginPath();
-      ctx.strokeStyle = `rgb(150, 150, 150)`;
-      ctx.moveTo(centerX, centerY);
-      const p = rotate(0, 0, centerX, centerY, rad * i);
-      ctx.lineTo(p.x, p.y);
-      ctx.closePath();
-      ctx.stroke();
-    });
+    ctx.globalCompositeOperation = 'overlay';
 
     // 位置更新
     this.particles.forEach(particle => {
-      particle.updatePosition();
+      particle.update();
     });
 
     // 範囲チェック
@@ -251,9 +277,27 @@ class Kaleidoscope extends Component<Props, State> {
 
     // 描画
     this.particles.forEach(particle => {
-      particle.draw();
       _.times(this.props.corner, i => {
+        const centerX = this.state.centerX;
+        const centerY = this.state.centerY;
+        const rad = this.state.rad;
+
+        ctx.save();
+
+        // 範囲外をトリミング
+        const p1 = rotate(0, 0, centerX, centerY, rad * i);
+        const p2 = rotate(0, 0, centerX, centerY, rad * (i + 1));
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineTo(centerX, centerY);
+        ctx.clip();
+
+        // 描画
         particle.drawAtRotatedPosition(centerX, centerY, rad * i);
+
+        ctx.restore();
       });
     });
 
@@ -273,7 +317,7 @@ Kaleidoscope.defaultProps = {
   colors: ['#FFD1B9', '#564138', '#2E86AB', '#F5F749', '#F24236'],
   corner: 6,
   height: 500,
-  quantity: 10,
+  quantity: 20,
   width: 500,
 };
 
