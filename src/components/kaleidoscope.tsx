@@ -33,6 +33,7 @@ class Particle {
   private x: number;
   private y: number;
   private v: number;
+  private rad: number;
 
   constructor(props) {
     const shapes = ['square', 'circle', 'wave'];
@@ -45,6 +46,7 @@ class Particle {
     this.x = props.x;
     this.y = props.y;
     this.v = getRandomInt(3) * 0.1 + 0.2; // 0.3〜0.6
+    this.rad = (2 * Math.PI) / (getRandomInt(6) + 1);
   }
 
   public getPos() {
@@ -57,8 +59,8 @@ class Particle {
         return this.size;
       case 'wave':
         return Math.sqrt(
-          (this.size * 2.5 + this.size / 2) ** 2 +
-            (this.size + this.size / 2) ** 2
+          (this.size + this.size * 0.3) ** 2 +
+            (this.size * 0.4 + this.size * 0.3) ** 2
         );
       case 'circle':
       default:
@@ -73,6 +75,12 @@ class Particle {
         ctx.save();
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x + this.getSize() / 2, this.y + this.getSize() / 2);
+        ctx.rotate(this.rad);
+        ctx.translate(
+          -(this.x + this.getSize() / 2),
+          -(this.y + this.getSize() / 2)
+        );
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.size, this.size);
         ctx.closePath();
@@ -81,18 +89,21 @@ class Particle {
         break;
       case 'wave':
         ctx.save();
-        ctx.lineWidth = this.size / 2;
+        ctx.lineWidth = this.size * 0.3;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.strokeStyle = this.color;
         ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x + this.size * 0.5, this.y + this.size * 0.2);
+        ctx.rotate(this.rad);
+        ctx.translate(-(this.x + this.size * 0.5), -(this.y + this.size * 0.2));
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.size * 0.5, this.y + this.size);
-        ctx.lineTo(this.x + this.size * 1, this.y);
-        ctx.lineTo(this.x + this.size * 1.5, this.y + this.size);
-        ctx.lineTo(this.x + this.size * 2, this.y);
-        ctx.lineTo(this.x + this.size * 2.5, this.y + this.size);
+        ctx.lineTo(this.x + this.size * 0.2, this.y + this.size * 0.4);
+        ctx.lineTo(this.x + this.size * 0.4, this.y);
+        ctx.lineTo(this.x + this.size * 0.6, this.y + this.size * 0.4);
+        ctx.lineTo(this.x + this.size * 0.8, this.y);
+        ctx.lineTo(this.x + this.size, this.y + this.size * 0.4);
         ctx.stroke();
         ctx.restore();
         break;
@@ -125,6 +136,7 @@ class Particle {
       this.opacity += 0.1;
     }
     this.y += this.v;
+    this.rad += 2 * Math.PI * this.v * 0.001;
   }
 }
 
