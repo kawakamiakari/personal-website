@@ -9,6 +9,8 @@ interface Props {
   colors: string[];
   corner: number;
   height: number;
+  maxSize: number;
+  minSize: number;
   quantity: number;
   width: number;
 }
@@ -40,7 +42,7 @@ class Particle {
 
     this.ctx = props.ctx;
     this.shape = shapes[getRandomInt(shapes.length)];
-    this.size = getRandomInt(20) + 20;
+    this.size = getRandomInt(props.maxSize - props.minSize) + props.minSize;
     this.color = props.color;
     this.opacity = 0;
     this.x = props.x;
@@ -56,7 +58,7 @@ class Particle {
   public getSize() {
     switch (this.shape) {
       case 'square':
-        return this.size;
+        return Math.sqrt(this.size ** 2 + this.size ** 2);
       case 'wave':
         return Math.sqrt(
           (this.size + this.size * 0.3) ** 2 +
@@ -73,30 +75,40 @@ class Particle {
     switch (this.shape) {
       case 'square':
         ctx.save();
+
+        // 設定
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.opacity;
-        ctx.translate(this.x + this.getSize() / 2, this.y + this.getSize() / 2);
+
+        // 回転
+        ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
         ctx.rotate(this.rad);
-        ctx.translate(
-          -(this.x + this.getSize() / 2),
-          -(this.y + this.getSize() / 2)
-        );
+        ctx.translate(-(this.x + this.size / 2), -(this.y + this.size / 2));
+
+        // 描画
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.size, this.size);
         ctx.closePath();
         ctx.fill();
+
         ctx.restore();
         break;
       case 'wave':
         ctx.save();
+
+        // 設定
+        ctx.strokeStyle = this.color;
+        ctx.globalAlpha = this.opacity;
         ctx.lineWidth = this.size * 0.3;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
-        ctx.strokeStyle = this.color;
-        ctx.globalAlpha = this.opacity;
+
+        // 回転
         ctx.translate(this.x + this.size * 0.5, this.y + this.size * 0.2);
         ctx.rotate(this.rad);
         ctx.translate(-(this.x + this.size * 0.5), -(this.y + this.size * 0.2));
+
+        // 描画
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(this.x + this.size * 0.2, this.y + this.size * 0.4);
@@ -105,17 +117,23 @@ class Particle {
         ctx.lineTo(this.x + this.size * 0.8, this.y);
         ctx.lineTo(this.x + this.size, this.y + this.size * 0.4);
         ctx.stroke();
+
         ctx.restore();
         break;
       case 'circle':
       default:
         ctx.save();
+
+        // 設定
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.opacity;
+
+        // 描画
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fill();
+
         ctx.restore();
         break;
     }
@@ -132,11 +150,14 @@ class Particle {
   }
 
   public update() {
+    // 出現時、ふわっと出す
     if (this.opacity < 1) {
       this.opacity += 0.1;
     }
+
+    // 位置更新
     this.y += this.v;
-    this.rad += 2 * Math.PI * this.v * 0.001;
+    this.rad += this.v * 0.001 * 2 * Math.PI;
   }
 }
 
@@ -148,9 +169,15 @@ class Kaleidoscope extends Component<Props, State> {
   private particles: Particle[] = [];
 
   // パーティクルの本体は以下の範囲内にある
-  // y < incliA * x               原点と中心を通る直線
-  // y > incliB * x + interceptB  中心と原点を回転させた点を通る直線
-  // y > incliC * x               原点と原点を回転させた点を通る直線
+  // if isSharp
+  //  y < incliA * x               原点と中心を通る直線
+  //  y < incliB * x + interceptB  中心と原点を回転させた点を通る直線
+  //  y > incliC * x               原点と原点を回転させた点を通る直線
+  // else
+  //  y < incliA * x               原点と中心を通る直線
+  //  y > incliB * x + interceptB  中心と原点を回転させた点を通る直線
+  //  y > incliC * x               原点と原点を回転させた点を通る直線
+  private isSharp: boolean;
   private incliA: number;
   private incliB: number;
   private interceptB: number;
@@ -175,6 +202,7 @@ class Kaleidoscope extends Component<Props, State> {
     this.animationID = null;
 
     // パーティクルの存在範囲
+    this.isSharp = p.x < centerX;
     this.incliA = centerY / centerX;
     this.incliB = (p.y - centerY) / (p.x - centerX);
     this.interceptB = centerY - this.incliB * centerX;
@@ -182,7 +210,9 @@ class Kaleidoscope extends Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.initParticles();
+    _.times(this.props.quantity, () => {
+      this.initParticle();
+    });
     this.initCanvas();
   }
 
@@ -210,38 +240,30 @@ class Kaleidoscope extends Component<Props, State> {
     return this.canvas.current.getContext('2d');
   }
 
-  private initParticles() {
-    _.times(this.props.quantity, i => {
-      const p = this.getInitialParticlePos();
-      this.particles.push(
-        new Particle({
-          color: this.props.colors[getRandomInt(this.props.colors.length)],
-          ctx: this.getContext(),
-          x: p.x,
-          y: p.y,
-        })
-      );
-    });
+  private initParticle() {
+    const p = this.getInitialParticlePos();
+    this.particles.push(
+      new Particle({
+        color: this.props.colors[getRandomInt(this.props.colors.length)],
+        ctx: this.getContext(),
+        maxSize: this.props.maxSize,
+        minSize: this.props.minSize,
+        x: p.x,
+        y: p.y,
+      })
+    );
   }
 
   private getInitialParticlePos() {
-    const p = rotate(
-      0,
-      0,
-      this.state.centerX,
-      this.state.centerY,
-      this.state.rad
-    );
-
     const x = getRandomInt(this.state.centerX);
     let minY;
     let maxY;
-    if (p.x > this.state.centerX) {
-      maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
-      minY = this.incliC * x;
-    } else {
+    if (this.isSharp) {
       maxY = this.incliA * x;
       minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+    } else {
+      maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
+      minY = this.incliC * x;
     }
 
     return { x, y: getRandomInt(maxY - minY) + minY };
@@ -250,26 +272,19 @@ class Kaleidoscope extends Component<Props, State> {
   private isInRange(particle) {
     let retval = true;
 
-    const rp = rotate(
-      0,
-      0,
-      this.state.centerX,
-      this.state.centerY,
-      this.state.rad
-    );
     const p = particle.getPos();
     const size = particle.getSize();
     const x = p.x;
     const y = p.y;
-    if (rp.x > this.state.centerX) {
-      const maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
-      const minY = this.incliC * x;
+    if (this.isSharp) {
+      const maxY = this.incliA * x;
+      const minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
       if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
     } else {
-      const maxY = this.incliA * x;
-      const minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+      const maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
+      const minY = this.incliC * x;
       if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
@@ -299,45 +314,37 @@ class Kaleidoscope extends Component<Props, State> {
 
     // 範囲チェック
     // 範囲外なら削除し、新規追加
-    this.particles = this.particles.filter(particle => {
-      return this.isInRange(particle);
-    });
-    _.times(this.props.quantity - this.particles.length, i => {
-      const p = this.getInitialParticlePos();
-      this.particles.push(
-        new Particle({
-          color: this.props.colors[getRandomInt(this.props.colors.length)],
-          ctx: this.getContext(),
-          x: p.x,
-          y: p.y,
-        })
-      );
+    this.particles = this.particles.filter(particle =>
+      this.isInRange(particle)
+    );
+    _.times(this.props.quantity - this.particles.length, () => {
+      this.initParticle();
     });
 
     // 描画
-    this.particles.forEach(particle => {
-      _.times(this.props.corner, i => {
-        const centerX = this.state.centerX;
-        const centerY = this.state.centerY;
-        const rad = this.state.rad;
+    _.times(this.props.corner, i => {
+      ctx.save();
 
-        ctx.save();
+      const centerX = this.state.centerX;
+      const centerY = this.state.centerY;
+      const rad = this.state.rad;
 
-        // 範囲外をトリミング
-        const p1 = rotate(0, 0, centerX, centerY, rad * i);
-        const p2 = rotate(0, 0, centerX, centerY, rad * (i + 1));
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.closePath();
-        ctx.clip();
+      // 範囲外をトリミング
+      const p1 = rotate(0, 0, centerX, centerY, rad * i);
+      const p2 = rotate(0, 0, centerX, centerY, rad * (i + 1));
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.closePath();
+      ctx.clip();
 
-        // 描画
+      // 描画
+      this.particles.forEach(particle => {
         particle.drawAtRotatedPosition(centerX, centerY, rad * i);
-
-        ctx.restore();
       });
+
+      ctx.restore();
     });
 
     this.animationID = requestAnimationFrame(() => this.renderCanvas());
@@ -348,6 +355,8 @@ Kaleidoscope.propTypes = {
   colors: PropTypes.array,
   corner: PropTypes.number,
   height: PropTypes.number,
+  maxSize: PropTypes.number,
+  minSize: PropTypes.number,
   quantity: PropTypes.number,
   width: PropTypes.number,
 };
@@ -356,6 +365,8 @@ Kaleidoscope.defaultProps = {
   colors: ['#FFD1B9', '#564138', '#2E86AB', '#F5F749', '#F24236'],
   corner: 7,
   height: 500,
+  maxSize: 40,
+  minSize: 20,
   quantity: 30,
   width: 500,
 };
