@@ -51,21 +51,41 @@ class Particle {
     return { x: this.x, y: this.y };
   }
 
+  public getSize() {
+    switch (this.shape) {
+      case 'square':
+        return this.size;
+      case 'wave':
+        return Math.sqrt(
+          (this.size * 2.5 + this.size / 2) ** 2 +
+            (this.size + this.size / 2) ** 2
+        );
+      case 'circle':
+      default:
+        return this.size;
+    }
+  }
+
   public draw() {
     const ctx = this.ctx;
     switch (this.shape) {
       case 'square':
+        ctx.save();
         ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.size, this.size);
-        ctx.fill();
         ctx.closePath();
+        ctx.fill();
+        ctx.restore();
         break;
       case 'wave':
+        ctx.save();
         ctx.lineWidth = this.size / 2;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.strokeStyle = this.color;
+        ctx.globalAlpha = this.opacity;
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(this.x + this.size * 0.5, this.y + this.size);
@@ -74,14 +94,18 @@ class Particle {
         ctx.lineTo(this.x + this.size * 2, this.y);
         ctx.lineTo(this.x + this.size * 2.5, this.y + this.size);
         ctx.stroke();
+        ctx.restore();
         break;
       case 'circle':
       default:
+        ctx.save();
         ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI, false);
-        ctx.fill();
         ctx.closePath();
+        ctx.fill();
+        ctx.restore();
         break;
     }
   }
@@ -98,7 +122,7 @@ class Particle {
 
   public update() {
     if (this.opacity < 1) {
-      this.opacity += 0.2;
+      this.opacity += 0.1;
     }
     this.y += this.v;
   }
@@ -211,26 +235,30 @@ class Kaleidoscope extends Component<Props, State> {
     return { x, y: getRandomInt(maxY - minY) + minY };
   }
 
-  private isInRange(x, y) {
+  private isInRange(particle) {
     let retval = true;
 
-    const p = rotate(
+    const rp = rotate(
       0,
       0,
       this.state.centerX,
       this.state.centerY,
       this.state.rad
     );
-    if (p.x > this.state.centerX) {
+    const p = particle.getPos();
+    const size = particle.getSize();
+    const x = p.x;
+    const y = p.y;
+    if (rp.x > this.state.centerX) {
       const maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
       const minY = this.incliC * x;
-      if (y >= maxY || y <= minY) {
+      if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
     } else {
       const maxY = this.incliA * x;
       const minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
-      if (y >= maxY || y <= minY) {
+      if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
     }
@@ -260,8 +288,7 @@ class Kaleidoscope extends Component<Props, State> {
     // 範囲チェック
     // 範囲外なら削除し、新規追加
     this.particles = this.particles.filter(particle => {
-      const p = particle.getPos();
-      return this.isInRange(p.x, p.y);
+      return this.isInRange(particle);
     });
     _.times(this.props.quantity - this.particles.length, i => {
       const p = this.getInitialParticlePos();
@@ -291,7 +318,7 @@ class Kaleidoscope extends Component<Props, State> {
         ctx.moveTo(centerX, centerY);
         ctx.lineTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
-        ctx.lineTo(centerX, centerY);
+        ctx.closePath();
         ctx.clip();
 
         // 描画
@@ -315,9 +342,9 @@ Kaleidoscope.propTypes = {
 
 Kaleidoscope.defaultProps = {
   colors: ['#FFD1B9', '#564138', '#2E86AB', '#F5F749', '#F24236'],
-  corner: 6,
+  corner: 7,
   height: 500,
-  quantity: 20,
+  quantity: 30,
   width: 500,
 };
 
