@@ -34,6 +34,8 @@ class Particle {
   private opacity: number;
   private x: number;
   private y: number;
+  private inclX: number;
+  private inclY: number;
   private v: number;
   private rad: number;
 
@@ -47,6 +49,8 @@ class Particle {
     this.opacity = 0;
     this.x = props.x;
     this.y = props.y;
+    this.inclX = props.inclX;
+    this.inclY = props.inclY;
     this.v = getRandomInt(3) * 0.1 + 0.2; // 0.3〜0.6
     this.rad = (2 * Math.PI) / (getRandomInt(6) + 1);
   }
@@ -68,6 +72,11 @@ class Particle {
       default:
         return this.size;
     }
+  }
+
+  public setIncl(inclX, inclY) {
+    this.inclX = inclX;
+    this.inclY = inclY;
   }
 
   public draw() {
@@ -156,7 +165,12 @@ class Particle {
     }
 
     // 位置更新
-    this.y += this.v;
+    if (!(this.inclX || this.inclY)) {
+      this.y += this.v;
+    } else {
+      this.x += this.v * this.inclX;
+      this.y += this.v * this.inclY;
+    }
     this.rad += this.v * 0.001 * 2 * Math.PI;
   }
 }
@@ -168,20 +182,23 @@ class Kaleidoscope extends Component<Props, State> {
   private animationID: number;
   private particles: Particle[] = [];
 
+  private inclX;
+  private inclY;
+
   // パーティクルの本体は以下の範囲内にある
   // if isSharp
-  //  y < incliA * x               原点と中心を通る直線
-  //  y < incliB * x + interceptB  中心と原点を回転させた点を通る直線
-  //  y > incliC * x               原点と原点を回転させた点を通る直線
+  //  y < inclA * x               原点と中心を通る直線
+  //  y < inclB * x + interceptB  中心と原点を回転させた点を通る直線
+  //  y > inclC * x               原点と原点を回転させた点を通る直線
   // else
-  //  y < incliA * x               原点と中心を通る直線
-  //  y > incliB * x + interceptB  中心と原点を回転させた点を通る直線
-  //  y > incliC * x               原点と原点を回転させた点を通る直線
+  //  y < inclA * x               原点と中心を通る直線
+  //  y > inclB * x + interceptB  中心と原点を回転させた点を通る直線
+  //  y > inclC * x               原点と原点を回転させた点を通る直線
   private isSharp: boolean;
-  private incliA: number;
-  private incliB: number;
+  private inclA: number;
+  private inclB: number;
   private interceptB: number;
-  private incliC: number;
+  private inclC: number;
 
   constructor(props) {
     super(props);
@@ -203,10 +220,10 @@ class Kaleidoscope extends Component<Props, State> {
 
     // パーティクルの存在範囲
     this.isSharp = p.x < centerX;
-    this.incliA = centerY / centerX;
-    this.incliB = (p.y - centerY) / (p.x - centerX);
-    this.interceptB = centerY - this.incliB * centerX;
-    this.incliC = p.y / p.x;
+    this.inclA = centerY / centerX;
+    this.inclB = (p.y - centerY) / (p.x - centerX);
+    this.interceptB = centerY - this.inclB * centerX;
+    this.inclC = p.y / p.x;
   }
 
   public componentDidMount() {
@@ -230,10 +247,25 @@ class Kaleidoscope extends Component<Props, State> {
         ref={this.canvas}
         width={this.props.width}
         height={this.props.height}
-        onMouseMove={() => {}}
+        onMouseMove={e =>
+          this.onMouseMove(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
+        }
         style={style}
       />
     );
+  }
+
+  private onMouseMove(x, y) {
+    const unit = Math.sqrt(
+      (x - this.state.centerX) ** 2 + (y - this.state.centerY) ** 2
+    );
+    if (unit === 0) return;
+
+    this.inclX = (x - this.state.centerX) / unit;
+    this.inclY = (y - this.state.centerY) / unit;
+    this.particles.forEach(particle => {
+      particle.setIncl(this.inclX, this.inclY);
+    });
   }
 
   private getContext() {
@@ -246,6 +278,8 @@ class Kaleidoscope extends Component<Props, State> {
       new Particle({
         color: this.props.colors[getRandomInt(this.props.colors.length)],
         ctx: this.getContext(),
+        inclX: this.inclX,
+        inclY: this.inclY,
         maxSize: this.props.maxSize,
         minSize: this.props.minSize,
         x: p.x,
@@ -259,11 +293,11 @@ class Kaleidoscope extends Component<Props, State> {
     let minY;
     let maxY;
     if (this.isSharp) {
-      maxY = this.incliA * x;
-      minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+      maxY = this.inclA * x;
+      minY = Math.max(this.inclB * x + this.interceptB, this.inclC * x);
     } else {
-      maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
-      minY = this.incliC * x;
+      maxY = Math.min(this.inclA * x, this.inclB * x + this.interceptB);
+      minY = this.inclC * x;
     }
 
     return { x, y: getRandomInt(maxY - minY) + minY };
@@ -277,14 +311,14 @@ class Kaleidoscope extends Component<Props, State> {
     const x = p.x;
     const y = p.y;
     if (this.isSharp) {
-      const maxY = this.incliA * x;
-      const minY = Math.max(this.incliB * x + this.interceptB, this.incliC * x);
+      const maxY = this.inclA * x;
+      const minY = Math.max(this.inclB * x + this.interceptB, this.inclC * x);
       if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
     } else {
-      const maxY = Math.min(this.incliA * x, this.incliB * x + this.interceptB);
-      const minY = this.incliC * x;
+      const maxY = Math.min(this.inclA * x, this.inclB * x + this.interceptB);
+      const minY = this.inclC * x;
       if (y - size >= maxY || y + size <= minY) {
         retval = false;
       }
