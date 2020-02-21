@@ -7,6 +7,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.149",
     "@types/prop-types": "^15.7.3",
+    "ak-kaleidoscope": "^1.0.0",
     "gatsby": "^2.18.12",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-manifest": "^2.2.31",
