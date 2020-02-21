@@ -1,17 +1,55 @@
+$margin-right: 24px;
+$nav-length: 3;
+$nav-width: calc(100% / #{$nav-length} - #{$margin-right});
+
 .container {
   padding: 30px;
 }
 
 .link {
-  margin-right: 24px;
+  margin-right: $margin-right;
   font-family: 'AsagoHonmaruGothic', YuGothic, 'Yu Gothic';
   font-size: 16px;
   letter-spacing: 0.2px;
   color: #b0c0ce;
   text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+
+  &.active {
+    color: #d79da5;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &.title {
+    font-size: 24px;
+    color: #839d9a;
+  }
 }
 
-.title {
-  font-size: 24px;
-  color: #839d9a;
+.navs {
+  position: relative;
+  display: inline-block;
+
+  @for $i from 1 through $nav-length {
+    .link:nth-child(#{$i}).active ~ .underline {
+      left: calc((#{$nav-width} + #{$margin-right}) * (#{$i} - 1));
+      opacity: 1;
+    }
+  }
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: $nav-width;
+  height: 2px;
+  background-color: #d79da5;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
 }
