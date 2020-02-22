@@ -4,6 +4,8 @@
 }
 
 :root {
+  --font-color: #343530;
+  --font-color-light: #858582;
   --main-color: #839d9a;
   --main-color-light: #b0c0be;
   --accent-color: #cc6b79;
@@ -11,6 +13,9 @@
   --title-font: 'AsagoHonmaruGothic', 'Tsukushi A Round Gothic',
     '筑紫A丸ゴシック', YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN',
     'ヒラギノ角ゴ ProN W3', 'メイリオ', Meiryo, 'ＭＳ ゴシック', sans-serif;
+  --normal-font: 'Tsukushi A Round Gothic', '筑紫A丸ゴシック', YuGothic,
+    'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'メイリオ',
+    Meiryo, 'ＭＳ ゴシック', sans-serif;
 }
 
 .page {

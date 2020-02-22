@@ -12,7 +12,7 @@ class Background extends Component {
       color: ['#F3F1EF', '#F3F1EF', '#F5F7F6', '#F5F7F6', '#FDF3F7'],
       globalCompositeOperation: 'multiply',
       quantity: 30,
-      speed: 0.2,
+      speed: 0.3,
     });
   }
 
