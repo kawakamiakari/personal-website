@@ -3,6 +3,16 @@
   src: url('../fonts/asago-honmaru-gothic.otf') format('opentype');
 }
 
+:root {
+  --main-color: #839d9a;
+  --main-color-light: #b0c0be;
+  --accent-color: #cc6b79;
+  --accent-color-light: #d79da5;
+  --title-font: 'AsagoHonmaruGothic', 'Tsukushi A Round Gothic',
+    '筑紫A丸ゴシック', YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN',
+    'ヒラギノ角ゴ ProN W3', 'メイリオ', Meiryo, 'ＭＳ ゴシック', sans-serif;
+}
+
 .page {
   display: block;
   min-height: 100vh;

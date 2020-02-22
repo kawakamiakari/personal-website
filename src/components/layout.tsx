@@ -9,9 +9,10 @@ import { graphql, useStaticQuery } from 'gatsby';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import '../styles/common.scss';
 import '../styles/layout.css';
-import '../styles/my-layout.scss';
+
+import '../styles/common.scss';
+import '../styles/layout.scss';
 
 import Background from '../components/background';
 import Sidemenu from '../components/sidemenu';
