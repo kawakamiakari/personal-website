@@ -1,4 +1,4 @@
-$guideline-height: 120px;
+$scrollindicator-height: 120px;
 
 .page {
   position: relative;
@@ -30,6 +30,9 @@ $guideline-height: 120px;
     left: 0;
     z-index: -1;
     display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
     background: #fff;
     opacity: 0.625;
     filter: blur(50px);
@@ -68,25 +71,25 @@ $guideline-height: 120px;
 
 @keyframes move {
   0% {
-    bottom: $guideline-height;
+    bottom: $scrollindicator-height;
     height: 0px;
   }
   20% {
-    bottom: calc(#{$guideline-height} - 20px);
+    bottom: calc(#{$scrollindicator-height} - 20px);
     height: 20px;
   }
   100% {
-    bottom: calc(0px - #{$guideline-height});
-    height: $guideline-height;
+    bottom: calc(0px - #{$scrollindicator-height});
+    height: $scrollindicator-height;
   }
 }
 
-.guideline {
+.scrollindicator {
   position: absolute;
   bottom: 0;
   left: 30px;
   width: 2px;
-  height: $guideline-height;
+  height: $scrollindicator-height;
   background: #efece9;
   overflow: hidden;
 
