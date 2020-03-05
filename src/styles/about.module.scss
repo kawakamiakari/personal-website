@@ -12,9 +12,25 @@ $photo-size: 160px;
   align-items: center;
 }
 
+.parallax {
+  display: block;
+  perspective: 300px;
+  z-index: 0;
+}
+
+.parallax_forward {
+  transform: translateZ(15px) scale(0.95);
+  z-index: 1;
+}
+
+.parallax_front {
+  transform: translateZ(30px) scale(0.9);
+  z-index: 2;
+}
+
 .photo {
   position: relative;
-  margin: 0 80px;
+  margin: 0 80px 48px 80px;
   width: calc(#{$photo-size} + 40px);
   height: calc(#{$photo-size} + 40px);
   text-align: center;
@@ -39,6 +55,7 @@ $photo-size: 160px;
   height: $photo-size;
   background: #fff;
   border-radius: $photo-size;
+  overflow: hidden;
 }
 
 .description {

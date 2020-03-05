@@ -18,7 +18,7 @@ class Top extends Component<Props, {}> {
             </div>
           </div>
         </div>
-        <div className={TopStyles.scrollindicator} />
+        <div className={TopStyles.scroll_indicator} />
       </div>
     );
   }

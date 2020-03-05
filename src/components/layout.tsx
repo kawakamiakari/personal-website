@@ -25,7 +25,7 @@ const Layout = ({ children, siteTitle }) => {
       <div className="sidemenu">
         <Sidemenu siteTitle={siteTitle} />
       </div>
-      <div className="main-contents">
+      <div className="main_contents">
         <main>{children}</main>
       </div>
     </>

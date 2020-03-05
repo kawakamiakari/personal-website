@@ -86,11 +86,8 @@ class Sidemenu extends Component<Props, {}> {
       const clientRect = scrollTarget[key].getBoundingClientRect();
       const clientRectTop = clientRect.top;
 
-      const scrollTop = document.body
-        ? document.body.scrollTop
-        : document.documentElement.scrollTop;
       const innerHeight = window.innerHeight;
-      if (clientRectTop <= scrollTop + innerHeight / 2) {
+      if (clientRectTop <= innerHeight / 2) {
         target = key;
       }
     }
