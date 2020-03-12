@@ -1,0 +1,29 @@
+.page {
+  position: relative;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.experience {
+  padding: 16px;
+  width: 540px;
+  text-align: left;
+}
+
+.skill {
+  padding: 16px;
+  width: 540px;
+  text-align: left;
+}
+
+.border {
+  width: 1px;
+  height: 100%;
+  background: var(--main-color-light);
+}
