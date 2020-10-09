@@ -15,16 +15,44 @@
   padding: 0 40px;
   width: 540px;
   font-family: var(--normal-font);
+  font-size: 16px;
   color: var(--font-color);
   text-align: left;
+
+  .container {
+    margin-bottom: 24px;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .date,
+  .set {
+    font-size: 85%;
+    color: var(--font-color-light);
+  }
 }
 
 .skill {
   padding: 0 40px;
   width: 540px;
   font-family: var(--normal-font);
+  font-size: 16px;
   color: var(--font-color);
   text-align: left;
+
+  .container {
+    margin-bottom: 24px;
+  }
+
+  .type {
+    font-weight: bold;
+  }
+
+  .set {
+    font-size: 85%;
+  }
 }
 
 .border {

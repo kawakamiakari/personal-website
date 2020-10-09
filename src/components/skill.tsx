@@ -107,14 +107,14 @@ const skills = [
 ];
 
 const Experience = ({ experience }) => {
-  const skill = experience.skill.join(' / ');
+  const set = experience.skill.join(' / ');
 
   return (
-    <div>
-      <div>{experience.name}</div>
-      <div>{experience.date}</div>
-      <div>{experience.role}</div>
-      <div>{skill}</div>
+    <div className={SkillStyles.container}>
+      <div className={SkillStyles.name}>{experience.name}</div>
+      <div className={SkillStyles.role}>{experience.role}</div>
+      <div className={SkillStyles.date}>{experience.date}</div>
+      <div className={SkillStyles.set}>{set}</div>
     </div>
   );
 };
@@ -125,9 +125,12 @@ const Skills = ({ skill }) => {
     .join('<br />');
 
   return (
-    <div>
-      <div>{skill.type}</div>
-      <div dangerouslySetInnerHTML={{ __html: set }} />
+    <div className={SkillStyles.container}>
+      <div className={SkillStyles.type}>{skill.type}</div>
+      <div
+        className={SkillStyles.set}
+        dangerouslySetInnerHTML={{ __html: set }}
+      />
     </div>
   );
 };
