@@ -51,15 +51,83 @@ const experiences = [
   },
 ];
 
+const skills = [
+  {
+    set: [
+      [{ name: 'C', level: 'bussiness' }],
+      [{ name: 'HTML5', level: 'bussiness' }],
+      [
+        { name: 'CSS3', level: 'bussiness' },
+        { name: 'Sass', level: 'bussiness' },
+      ],
+      [
+        { name: 'Javascript', level: 'bussiness' },
+        { name: 'TypeScript', level: 'bussiness' },
+      ],
+      [{ name: 'Python', level: 'bussiness' }],
+      [
+        { name: 'VBA', level: 'hobby' },
+        { name: 'GAS', level: 'hobby' },
+      ],
+    ],
+    type: '言語',
+  },
+  {
+    set: [
+      [
+        { name: 'Vue.js', level: 'bussiness' },
+        { name: 'React.js', level: 'bussiness' },
+        { name: 'Angular', level: 'bussiness' },
+        { name: 'jQuery', level: 'bussiness' },
+      ],
+      [{ name: 'Django', level: 'bussiness' }],
+    ],
+    type: 'フレームワーク',
+  },
+  {
+    set: [
+      [
+        { name: 'git', level: 'bussiness' },
+        { name: 'GitHub', level: 'bussiness' },
+        { name: 'GitLab', level: 'bussiness' },
+      ],
+      [
+        { name: 'GitLab CI', level: 'bussiness' },
+        { name: 'Jenkins', level: 'bussiness' },
+        { name: 'gulp', level: 'bussiness' },
+      ],
+      [
+        { name: 'Adobe XD', level: 'bussiness' },
+        { name: 'inVision', level: 'bussiness' },
+      ],
+      [{ name: 'Slack', level: 'bussiness' }],
+    ],
+    type: 'ツール',
+  },
+];
+
 const Experience = ({ experience }) => {
-  const skills = experience.skill.join('/');
+  const skill = experience.skill.join(' / ');
 
   return (
     <div>
       <div>{experience.name}</div>
       <div>{experience.date}</div>
       <div>{experience.role}</div>
-      <div>{skills}</div>
+      <div>{skill}</div>
+    </div>
+  );
+};
+
+const Skills = ({ skill }) => {
+  const set = skill.set
+    .map(group => group.map(s => s.name).join(' / '))
+    .join('<br />');
+
+  return (
+    <div>
+      <div>{skill.type}</div>
+      <div dangerouslySetInnerHTML={{ __html: set }} />
     </div>
   );
 };
@@ -68,6 +136,7 @@ class Skill extends Component {
   private Experiences = experiences.map((experience, i) => (
     <Experience key={i} experience={experience} />
   ));
+  private Skills = skills.map((skill, i) => <Skills key={i} skill={skill} />);
 
   public render() {
     return (
@@ -75,8 +144,8 @@ class Skill extends Component {
         <PageTitle title="スキル" />
         <div className={SkillStyles.contents}>
           <div className={SkillStyles.experience}>{this.Experiences}</div>
-          {/* <div className={SkillStyles.border} /> */}
-          <div className={SkillStyles.skill}>スキル</div>
+          <div className={SkillStyles.border} />
+          <div className={SkillStyles.skill}>{this.Skills}</div>
         </div>
       </div>
     );
