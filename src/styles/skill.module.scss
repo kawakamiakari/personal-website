@@ -11,7 +11,7 @@
   align-items: stretch;
 }
 
-.experience {
+.experiences {
   padding: 0 40px;
   width: 540px;
   font-family: var(--normal-font);
@@ -28,13 +28,13 @@
   }
 
   .date,
-  .set {
+  .skill {
     font-size: 85%;
     color: var(--font-color-light);
   }
 }
 
-.skill {
+.skills {
   padding: 0 40px;
   width: 540px;
   font-family: var(--normal-font);
@@ -50,7 +50,7 @@
     font-weight: bold;
   }
 
-  .set {
+  .skill {
     font-size: 85%;
   }
 }

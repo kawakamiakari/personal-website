@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import SkillStyles from '../styles/work.module.scss';
+
 import PageTitle from '../components/pagetitle';
 
-class Work extends Component {
+class WorkPage extends Component {
   public render() {
     return (
-      <div id="work" className="page page-work">
+      <div id="work" className={`page ${SkillStyles.page}`}>
         <PageTitle color="#dde1df" title="ワーク" />
         <div>Hello Work-page</div>
       </div>
@@ -13,4 +15,4 @@ class Work extends Component {
   }
 }
 
-export default Work;
+export default WorkPage;

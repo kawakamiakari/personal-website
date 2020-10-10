@@ -106,15 +106,15 @@ const skills = [
   },
 ];
 
-const Experience = ({ experience }) => {
-  const set = experience.skill.join(' / ');
+const Experiences = ({ experience }) => {
+  const skill = experience.skill.join(' / ');
 
   return (
     <div className={SkillStyles.container}>
       <div className={SkillStyles.name}>{experience.name}</div>
       <div className={SkillStyles.role}>{experience.role}</div>
       <div className={SkillStyles.date}>{experience.date}</div>
-      <div className={SkillStyles.set}>{set}</div>
+      <div className={SkillStyles.skill}>{skill}</div>
     </div>
   );
 };
@@ -128,16 +128,16 @@ const Skills = ({ skill }) => {
     <div className={SkillStyles.container}>
       <div className={SkillStyles.type}>{skill.type}</div>
       <div
-        className={SkillStyles.set}
+        className={SkillStyles.skill}
         dangerouslySetInnerHTML={{ __html: set }}
       />
     </div>
   );
 };
 
-class Skill extends Component {
+class SkillPage extends Component {
   private Experiences = experiences.map((experience, i) => (
-    <Experience key={i} experience={experience} />
+    <Experiences key={i} experience={experience} />
   ));
   private Skills = skills.map((skill, i) => <Skills key={i} skill={skill} />);
 
@@ -146,13 +146,13 @@ class Skill extends Component {
       <div id="skill" className={`page ${SkillStyles.page}`}>
         <PageTitle title="スキル" />
         <div className={SkillStyles.contents}>
-          <div className={SkillStyles.experience}>{this.Experiences}</div>
+          <div className={SkillStyles.experiences}>{this.Experiences}</div>
           <div className={SkillStyles.border} />
-          <div className={SkillStyles.skill}>{this.Skills}</div>
+          <div className={SkillStyles.skills}>{this.Skills}</div>
         </div>
       </div>
     );
   }
 }
 
-export default Skill;
+export default SkillPage;

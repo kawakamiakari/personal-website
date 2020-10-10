@@ -6,7 +6,7 @@ interface Props {
   siteTitle: string;
 }
 
-class Top extends Component<Props, {}> {
+class TopPage extends Component<Props, {}> {
   public render() {
     return (
       <div id="top" className={`page ${TopStyles.page}`}>
@@ -24,4 +24,4 @@ class Top extends Component<Props, {}> {
   }
 }
 
-export default Top;
+export default TopPage;

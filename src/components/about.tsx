@@ -25,7 +25,7 @@ const Image = () => (
   />
 );
 
-class About extends Component {
+class AboutPage extends Component {
   public componentDidMount() {
     window.addEventListener(
       'scroll',
@@ -84,4 +84,4 @@ class About extends Component {
   }
 }
 
-export default About;
+export default AboutPage;
