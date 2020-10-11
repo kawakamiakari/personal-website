@@ -11,10 +11,10 @@ const experiences = [
     role: 'モバイル端末用デバイス操作アプリの設計/開発/テストを担当',
     skill: [
       'HTML',
-      'Sass',
-      'Javascript',
-      'Bootstrap',
+      'SCSS',
+      'JavaScript',
       'AngularJS',
+      'Bootstrap',
       'jQuery',
       'GitLab',
     ],
@@ -31,7 +31,7 @@ const experiences = [
     role: 'Webアプリの設計/開発/テストを担当',
     skill: [
       'HTML',
-      'Sass',
+      'SCSS',
       'TypeScript',
       'Python',
       'Bootstrap',
@@ -47,7 +47,15 @@ const experiences = [
     date: '2019.8-2019.10',
     name: '不動産情報検索アプリ開発',
     role: 'Webアプリのスタイルを担当',
-    skill: ['HTML', 'Sass', 'TypeScript', 'Vue.js', 'GitHub', 'Slack'],
+    skill: [
+      'HTML',
+      'SCSS',
+      'TypeScript',
+      'Vue.js',
+      'GitHub',
+      'inVision',
+      'Slack',
+    ],
   },
 ];
 
@@ -58,10 +66,10 @@ const skills = [
       [{ name: 'HTML5', level: 'bussiness' }],
       [
         { name: 'CSS3', level: 'bussiness' },
-        { name: 'Sass', level: 'bussiness' },
+        { name: 'SCSS', level: 'bussiness' },
       ],
       [
-        { name: 'Javascript', level: 'bussiness' },
+        { name: 'JavaScript', level: 'bussiness' },
         { name: 'TypeScript', level: 'bussiness' },
       ],
       [{ name: 'Python', level: 'bussiness' }],
@@ -79,6 +87,10 @@ const skills = [
         { name: 'React.js', level: 'bussiness' },
         { name: 'Angular', level: 'bussiness' },
         { name: 'jQuery', level: 'bussiness' },
+      ],
+      [
+        { name: 'Jasmine', level: 'bussiness' },
+        { name: 'Karma', level: 'bussiness' },
       ],
       [{ name: 'Django', level: 'bussiness' }],
     ],
