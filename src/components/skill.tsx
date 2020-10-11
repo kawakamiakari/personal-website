@@ -84,7 +84,9 @@ const skills = [
     set: [
       [
         { name: 'Vue.js', level: 'bussiness' },
-        { name: 'React.js', level: 'bussiness' },
+        { name: 'React.js', level: 'hobby' },
+        { name: 'Gatsby', level: 'hobby' },
+        { name: 'AngularJS', level: 'bussiness' },
         { name: 'Angular', level: 'bussiness' },
         { name: 'jQuery', level: 'bussiness' },
       ],
