@@ -6,11 +6,27 @@ import PageTitle from '../components/pagetitle';
 
 const works = [
   {
-    discription: '',
-    skills: ['HTML', 'SCSS', 'JavaScript', 'React.js', 'Gatsby'],
+    discription: 'description',
+    skills: ['skills'],
     thumbnail: '',
     thumbnailHover: null,
-    title: 'このサイト',
+    title: 'title',
+    url: '',
+  },
+  {
+    discription: 'description',
+    skills: ['skills'],
+    thumbnail: '',
+    thumbnailHover: null,
+    title: 'title',
+    url: '',
+  },
+  {
+    discription: 'description',
+    skills: ['skills'],
+    thumbnail: '',
+    thumbnailHover: null,
+    title: 'title',
     url: '',
   },
   {
@@ -22,27 +38,11 @@ const works = [
     url: 'https://kawakamiakari.github.io/kaleidoscope/',
   },
   {
-    discription: 'description',
-    skills: ['skills'],
+    discription: '',
+    skills: ['HTML', 'SCSS', 'JavaScript', 'React.js', 'Gatsby'],
     thumbnail: '',
     thumbnailHover: null,
-    title: 'title',
-    url: '',
-  },
-  {
-    discription: 'description',
-    skills: ['skills'],
-    thumbnail: '',
-    thumbnailHover: null,
-    title: 'title',
-    url: '',
-  },
-  {
-    discription: 'description',
-    skills: ['skills'],
-    thumbnail: '',
-    thumbnailHover: null,
-    title: 'title',
+    title: 'このサイト',
     url: '',
   },
 ];
