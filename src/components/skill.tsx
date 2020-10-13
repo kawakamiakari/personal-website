@@ -118,6 +118,10 @@ const skills = [
     ],
     type: 'ツール',
   },
+  {
+    set: [[{ name: '応用情報技術者試験合格 (2017.12)', level: 'bussiness' }]],
+    type: '資格',
+  },
 ];
 
 const Experiences = ({ experience }) => {

@@ -56,6 +56,28 @@
 }
 
 .border {
-  width: 1px;
+  display: block;
+  margin: 16px 0 40px 0;
+  height: 1px;
   background: var(--main-color-light);
+}
+
+@media (min-width: 576px) {
+  .border {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  .border {
+    width: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .border {
+    margin: 0;
+    width: 1px;
+    height: initial;
+  }
 }
