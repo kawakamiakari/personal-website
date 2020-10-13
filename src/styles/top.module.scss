@@ -1,0 +1,112 @@
+$scroll-indicator-height: 200px;
+
+.page {
+  position: relative;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: min-content;
+  height: min-content;
+  margin: auto;
+}
+
+.background {
+  position: relative;
+  width: calc(480px - 90px);
+  height: calc(480px - 90px);
+  border-radius: calc(480px - 90px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background: #fff;
+    opacity: 0.625;
+    filter: blur(50px);
+  }
+}
+
+.inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: min-content;
+  height: min-content;
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-family: var(--title-font);
+  font-size: 36px;
+  letter-spacing: 0.6px;
+  color: var(--font-color);
+  white-space: nowrap;
+}
+
+.description {
+  margin: 0;
+  font-family: var(--normal-font);
+  font-size: 18px;
+  letter-spacing: 0.6px;
+  color: var(--font-color-light);
+  white-space: nowrap;
+}
+
+@keyframes move {
+  0% {
+    bottom: $scroll-indicator-height;
+    height: 0px;
+  }
+  20% {
+    bottom: calc(#{$scroll-indicator-height} - 20px);
+    height: 20px;
+  }
+  100% {
+    bottom: calc(0px - #{$scroll-indicator-height});
+    height: $scroll-indicator-height;
+  }
+}
+
+.scroll_indicator {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 2px;
+  height: $scroll-indicator-height;
+  background: #efece9;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    background: linear-gradient(#efece9, var(--accent-color));
+    opacity: 1;
+
+    animation-name: move;
+    animation-duration: 1.8s;
+    animation-timing-function: linear;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+  }
+}

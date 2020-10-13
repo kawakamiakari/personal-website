@@ -1,0 +1,63 @@
+$margin-right: 24px;
+$nav-length: 3;
+$nav-width: calc(100% / #{$nav-length} - #{$margin-right});
+
+.container {
+  padding: 30px;
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.link {
+  margin-right: $margin-right;
+  font-family: var(--title-font);
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  color: var(--main-color-light);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+
+  &.active {
+    color: var(--accent-color-light);
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &.title {
+    font-size: 24px;
+    color: var(--main-color);
+  }
+}
+
+.navs {
+  position: relative;
+  display: inline-block;
+
+  @for $i from 1 through $nav-length {
+    .link:nth-child(#{$i}).active ~ .underline {
+      left: calc((#{$nav-width} + #{$margin-right}) * (#{$i} - 1));
+      opacity: 1;
+    }
+  }
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: $nav-width;
+  height: 2px;
+  background-color: var(--accent-color-light);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}

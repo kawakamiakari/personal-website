@@ -1,0 +1,19 @@
+.container {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.pagetitle {
+  margin-bottom: 16px;
+  font-family: var(--title-font);
+  font-size: 30px;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+
+.underline {
+  margin: auto;
+  width: 60px;
+  height: 2px;
+  background: var(--accent-color);
+}

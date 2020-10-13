@@ -1,0 +1,76 @@
+$photo-size: 160px;
+
+.page {
+  text-align: center;
+  background-color: #efece9;
+}
+
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.parallax {
+  display: block;
+  perspective: 300px;
+  z-index: 0;
+}
+
+.parallax_forward {
+  transform: translateZ(15px) scale(0.95);
+  z-index: 1;
+}
+
+.parallax_front {
+  transform: translateZ(30px) scale(0.9);
+  z-index: 2;
+}
+
+.photo {
+  position: relative;
+  margin: 0 80px 48px 80px;
+  width: calc(#{$photo-size} + 40px);
+  height: calc(#{$photo-size} + 40px);
+  text-align: center;
+}
+
+.square {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: $photo-size;
+  height: $photo-size;
+  background: #dde1df;
+}
+
+.circle {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: block;
+  width: $photo-size;
+  height: $photo-size;
+  background: #fff;
+  border-radius: $photo-size;
+  overflow: hidden;
+}
+
+.description {
+  width: fit-content;
+  text-align: left;
+  font-family: var(--normal-font);
+  font-size: 16px;
+  color: var(--font-color);
+
+  > p {
+    margin-bottom: 16px;
+  }
+}
+
+.name {
+  font-size: 110%;
+  font-weight: bold;
+}

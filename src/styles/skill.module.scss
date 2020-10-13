@@ -1,0 +1,83 @@
+.page {
+  position: relative;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.experiences {
+  padding: 0 40px;
+  width: 540px;
+  font-family: var(--normal-font);
+  font-size: 16px;
+  color: var(--font-color);
+  text-align: left;
+
+  .container {
+    margin-bottom: 24px;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .date,
+  .skill {
+    font-size: 85%;
+    color: var(--font-color-light);
+  }
+}
+
+.skills {
+  padding: 0 40px;
+  width: 540px;
+  font-family: var(--normal-font);
+  font-size: 16px;
+  color: var(--font-color);
+  text-align: left;
+
+  .container {
+    margin-bottom: 24px;
+  }
+
+  .type {
+    font-weight: bold;
+  }
+
+  .skill {
+    font-size: 85%;
+  }
+}
+
+.border {
+  display: block;
+  margin: 16px 0 40px 0;
+  height: 1px;
+  background: var(--main-color-light);
+}
+
+@media (min-width: 576px) {
+  .border {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  .border {
+    width: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .border {
+    margin: 0;
+    width: 1px;
+    height: initial;
+  }
+}
