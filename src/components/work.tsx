@@ -2,53 +2,52 @@ import React, { Component } from 'react';
 
 import SkillStyles from '../styles/work.module.scss';
 
+import KaleidoscopeGIF from '../images/kaleidoscope.gif';
+import KaleidoscopeThumbnailGIF from '../images/kaleidoscope_thumbnail.gif';
+import ThisSiteJPG from '../images/thissite.jpg';
+import ThisSiteThumbnailJPG from '../images/thissite_thumbnail.jpg';
+
 import PageTitle from '../components/pagetitle';
 
 const works = [
   {
-    discription: 'description',
-    skills: ['skills'],
-    thumbnail: '',
-    thumbnailHover: null,
-    title: 'title',
-    url: '',
-  },
-  {
-    discription: 'description',
-    skills: ['skills'],
-    thumbnail: '',
-    thumbnailHover: null,
-    title: 'title',
-    url: '',
-  },
-  {
-    discription: 'description',
-    skills: ['skills'],
-    thumbnail: '',
-    thumbnailHover: null,
-    title: 'title',
-    url: '',
-  },
-  {
     discription: '動的背景のnpmモジュール',
     skills: ['HTML', 'css', 'JavaScript', 'TypeScript', 'gulp'],
-    thumbnail: '',
-    thumbnailHover: null,
+    thumbnail: KaleidoscopeThumbnailGIF,
+    thumbnailHover: KaleidoscopeGIF,
     title: 'kaleidoscope',
     url: 'https://kawakamiakari.github.io/kaleidoscope/',
   },
   {
     discription: '',
     skills: ['HTML', 'SCSS', 'JavaScript', 'React.js', 'Gatsby'],
-    thumbnail: '',
-    thumbnailHover: null,
+    thumbnail: ThisSiteThumbnailJPG,
+    thumbnailHover: ThisSiteJPG,
     title: 'このサイト',
-    url: '',
+    url: null,
   },
 ];
 
 const Work = ({ work }) => {
-  return <div className={SkillStyles.work}>{work.title}</div>;
+  const skills = work.skills.join(' / ');
+
+  return (
+    <a href={work.url} target="_blank" className={SkillStyles.work}>
+      <div className={SkillStyles.background}>
+        <img src={work.thumbnail} alt="" className={SkillStyles.thumbnail} />
+        <img
+          src={work.thumbnailHover}
+          alt=""
+          className={SkillStyles.thumbnailHover}
+        />
+      </div>
+      <div className={SkillStyles.caption}>
+        <div className={SkillStyles.title}>{work.title}</div>
+        <div className={SkillStyles.discription}>{work.discription}</div>
+        <div className={SkillStyles.skills}>{skills}</div>
+      </div>
+    </a>
+  );
 };
 
 class WorkPage extends Component {
