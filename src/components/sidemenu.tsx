@@ -1,6 +1,5 @@
 import scrollTo from 'gatsby-plugin-smoothscroll';
 import React, { Component } from 'react';
-
 import { throttle } from 'throttle-debounce';
 
 import SidemenuStyles from '../styles/sidemenu.module.scss';

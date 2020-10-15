@@ -1,29 +1,11 @@
-import { graphql, StaticQuery } from 'gatsby';
-import Img from 'gatsby-image';
 import React, { Component } from 'react';
-
 import { throttle } from 'throttle-debounce';
 
 import AboutStyles from '../styles/about.module.scss';
 
-import PageTitle from '../components/pagetitle';
+import ProfileJPG from '../images/profile.jpg';
 
-const Image = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        placeholderImage: file(relativePath: { eq: "profile.png" }) {
-          childImageSharp {
-            fluid(maxWidth: 160) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-      }
-    `}
-    render={data => <Img fluid={data.placeholderImage.childImageSharp.fluid} />}
-  />
-);
+import PageTitle from '../components/pagetitle';
 
 class AboutPage extends Component {
   public componentDidMount() {
@@ -48,7 +30,7 @@ class AboutPage extends Component {
             <div
               className={`${AboutStyles.circle} ${AboutStyles.parallax_front}`}
             >
-              <Image />
+              <img src={ProfileJPG} alt="" />
             </div>
           </div>
           <div className={AboutStyles.description}>

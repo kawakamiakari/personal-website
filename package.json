@@ -1,12 +1,13 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "personal-website",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Akari Kawakami's portfolio",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Akari Kawakami <akari.k.c5@gmail.com>",
   "dependencies": {
     "@types/lodash": "^4.14.149",
     "@types/prop-types": "^15.7.3",
+    "@types/throttle-debounce": "^2.1.0",
     "ak-kaleidoscope": "^1.0.0",
     "gatsby": "^2.18.12",
     "gatsby-image": "^2.2.34",
