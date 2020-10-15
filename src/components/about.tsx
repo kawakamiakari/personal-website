@@ -1,7 +1,4 @@
-import { graphql, StaticQuery } from 'gatsby';
-import Img from 'gatsby-image';
 import React, { Component } from 'react';
-
 import { throttle } from 'throttle-debounce';
 
 import AboutStyles from '../styles/about.module.scss';

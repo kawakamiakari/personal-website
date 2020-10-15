@@ -8,6 +8,7 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "function-name": ["allow-pascal-case"],
     "import-name": false,
     "interface-name": [true, "never-prefix"],
     "prettier": [true],
