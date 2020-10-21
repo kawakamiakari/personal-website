@@ -1,18 +1,40 @@
-$page-padding: calc(80px * 2);
+@import './mixin.scss';
+
+$work-width: 188px;
+$work-height: 188px;
+$work-horizontal-margin: 10px;
 
 .page {
+  padding-right: 0;
+  padding-left: 0;
   text-align: center;
   background-color: var(--font-color);
 }
 
 .works {
   display: inline-flex;
+  width: calc(#{$work-width + $work-horizontal-margin * 2});
   flex-wrap: wrap;
+
+  @include mediaquery(sm) {
+    width: calc(#{$work-width * 2 + $work-horizontal-margin * 4});
+  }
+
+  @include mediaquery(md) {
+    width: calc(#{$work-width * 3 + $work-horizontal-margin * 6});
+  }
+
+  @include mediaquery(lg) {
+    width: calc(#{$work-width * 4 + $work-horizontal-margin * 8});
+  }
 }
 
 .work {
   position: relative;
   display: inline-block;
+  margin: 0 $work-horizontal-margin #{$work-horizontal-margin * 2} $work-horizontal-margin;
+  width: $work-width;
+  height: $work-height;
   background: #fff;
   overflow: hidden;
 
@@ -86,52 +108,5 @@ $page-padding: calc(80px * 2);
 
   .discription {
     margin-bottom: 0.5rem;
-  }
-}
-
-@media (min-width: 576px) {
-  .works {
-    width: calc(576px - #{$page-padding});
-  }
-
-  .work {
-    width: 188px;
-    height: 188px;
-    margin: 0 10px 20px 10px;
-  }
-}
-
-@media (min-width: 768px) {
-  .works {
-    width: calc(768px - #{$page-padding});
-  }
-
-  .work {
-    width: 186px;
-    height: 186px;
-    margin: 0 8px 16px 8px;
-  }
-}
-
-@media (min-width: 992px) {
-  .works {
-    width: calc(992px - #{$page-padding});
-  }
-
-  .work {
-    width: 188px;
-    height: 188px;
-    margin: 0 10px 20px 10px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .works {
-    width: calc(992px - #{$page-padding});
-  }
-  .work {
-    width: 188px;
-    height: 188px;
-    margin: 0 10px 20px 10px;
   }
 }

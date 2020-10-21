@@ -39,18 +39,18 @@ html {
   padding: 80px 48px;
 
   @include mediaquery(sm) {
-    padding: 80px calc((#{var(--media-breakpoint-sm)} - 540px) / 2 + 48px);
+    padding: 80px calc((100vw - 540px) / 2 + 48px);
   }
 
   @include mediaquery(md) {
-    padding: 80px calc((#{var(--media-breakpoint-md)} - 720px) / 2 + 80px);
+    padding: 80px calc((100vw - 720px) / 2 + 48px);
   }
 
   @include mediaquery(lg) {
-    padding: 80px calc((#{var(--media-breakpoint-lg)} - 960px) / 2 + 80px);
+    padding: 80px calc((100vw - 960px) / 2 + 48px);
   }
 
   @include mediaquery(xl) {
-    padding: 80px calc((#{var(--media-breakpoint-xl)} - 1140px) / 2 + 80px);
+    padding: 80px calc((100vw - 1140px) / 2 + 28px);
   }
 }
