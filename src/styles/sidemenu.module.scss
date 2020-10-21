@@ -3,6 +3,7 @@ $nav-length: 3;
 $nav-width: calc(100% / #{$nav-length} - #{$margin-right});
 
 .container {
+  width: 100vh;
   padding: 30px;
   visibility: visible;
   opacity: 1;
@@ -17,7 +18,7 @@ $nav-width: calc(100% / #{$nav-length} - #{$margin-right});
 .link {
   margin-right: $margin-right;
   font-family: var(--title-font);
-  font-size: 16px;
+  font-size: 1rem;
   letter-spacing: 0.2px;
   color: var(--main-color-light);
   text-decoration: none;
@@ -34,7 +35,7 @@ $nav-width: calc(100% / #{$nav-length} - #{$margin-right});
   }
 
   &.title {
-    font-size: 24px;
+    font-size: 1.5rem;
     color: var(--main-color);
   }
 }
