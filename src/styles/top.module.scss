@@ -16,9 +16,9 @@ $scroll-indicator-height: 200px;
 
   .background {
     position: relative;
-    width: 400px;
-    height: 400px;
-    border-radius: 400px;
+    width: unquote('min(400px, 100vw)');
+    height: unquote('min(400px, 100vw)');
+    border-radius: unquote('min(400px, 100vw)');
 
     &::before {
       content: '';
