@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 $scroll-indicator-height: 200px;
 
 .page {
@@ -87,11 +89,15 @@ $scroll-indicator-height: 200px;
 .scroll_indicator {
   position: absolute;
   bottom: 0;
-  left: 30px;
+  left: 12px;
   width: 2px;
   height: $scroll-indicator-height;
   background: #efece9;
   overflow: hidden;
+
+  @include mediaquery(sm) {
+    padding: 30px;
+  }
 
   &::before {
     content: '';

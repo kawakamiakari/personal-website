@@ -1,13 +1,19 @@
+@import './mixin.scss';
+
 $margin-right: 24px;
 $nav-length: 3;
 $nav-width: calc(100% / #{$nav-length} - #{$margin-right});
 
 .container {
   width: 100vh;
-  padding: 30px;
+  padding: 12px 30px;
   visibility: visible;
   opacity: 1;
   transition: all 0.3s ease-in-out;
+
+  @include mediaquery(sm) {
+    padding: 30px;
+  }
 
   &.hidden {
     visibility: hidden;
