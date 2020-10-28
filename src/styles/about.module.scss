@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 $photo-size: 160px;
 
 .page {
@@ -30,10 +32,14 @@ $photo-size: 160px;
 
 .photo {
   position: relative;
-  margin: 0 80px 48px 80px;
+  margin: 0 0 48px 0;
   width: calc(#{$photo-size} + 40px);
   height: calc(#{$photo-size} + 40px);
   text-align: center;
+
+  @include mediaquery(sm) {
+    margin: 0 80px 48px 80px;
+  }
 }
 
 .square {
@@ -62,11 +68,11 @@ $photo-size: 160px;
   width: fit-content;
   text-align: left;
   font-family: var(--normal-font);
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--font-color);
 
   > p {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 }
 

@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'AsagoHonmaruGothic';
-  src: url('../fonts/asago-honmaru-gothic.otf') format('opentype');
-}
+@import './mixin.scss';
 
 :root {
   --font-color: #343530;
@@ -16,11 +13,44 @@
   --normal-font: 'Tsukushi A Round Gothic', '筑紫A丸ゴシック', YuGothic,
     'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'メイリオ',
     Meiryo, 'ＭＳ ゴシック', sans-serif;
+  --media-breakpoint-sm: 576px;
+  --media-breakpoint-md: 768px;
+  --media-breakpoint-lg: 992px;
+  --media-breakpoint-xl: 1200px;
+}
+
+@font-face {
+  font-family: 'AsagoHonmaruGothic';
+  src: url('../fonts/asago-honmaru-gothic.otf') format('opentype');
+}
+
+html {
+  font-size: 12px;
+
+  @include mediaquery(sm) {
+    font-size: 16px;
+  }
 }
 
 .page {
   display: block;
   min-height: 100vh;
   margin: 0;
-  padding: 80px;
+  padding: 80px 48px;
+
+  @include mediaquery(sm) {
+    padding: 80px calc((100vw - 540px) / 2 + 48px);
+  }
+
+  @include mediaquery(md) {
+    padding: 80px calc((100vw - 720px) / 2 + 48px);
+  }
+
+  @include mediaquery(lg) {
+    padding: 80px calc((100vw - 960px) / 2 + 48px);
+  }
+
+  @include mediaquery(xl) {
+    padding: 80px calc((100vw - 1140px) / 2 + 28px);
+  }
 }

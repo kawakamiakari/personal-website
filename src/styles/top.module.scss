@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 $scroll-indicator-height: 200px;
 
 .page {
@@ -13,60 +15,60 @@ $scroll-indicator-height: 200px;
   width: min-content;
   height: min-content;
   margin: auto;
-}
 
-.background {
-  position: relative;
-  width: calc(480px - 90px);
-  height: calc(480px - 90px);
-  border-radius: calc(480px - 90px);
+  .background {
+    position: relative;
+    width: unquote('min(400px, 100vw)');
+    height: unquote('min(400px, 100vw)');
+    border-radius: unquote('min(400px, 100vw)');
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    display: block;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    background: #fff;
-    opacity: 0.625;
-    filter: blur(50px);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      width: inherit;
+      height: inherit;
+      border-radius: inherit;
+      background: #fff;
+      opacity: 0.625;
+      filter: blur(50px);
+    }
+
+    .letters {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: min-content;
+      height: min-content;
+      margin: auto;
+      text-align: center;
+    }
+
+    .title {
+      margin-bottom: 0.75rem;
+      font-family: var(--title-font);
+      font-size: 2.25rem;
+      letter-spacing: 0.04rem;
+      color: var(--font-color);
+      white-space: nowrap;
+    }
+
+    .description {
+      margin: 0;
+      font-family: var(--normal-font);
+      font-size: 1.125rem;
+      letter-spacing: 0.04rem;
+      color: var(--font-color-light);
+      white-space: nowrap;
+    }
   }
-}
-
-.inner {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: min-content;
-  height: min-content;
-  margin: auto;
-  text-align: center;
-}
-
-.title {
-  margin-bottom: 12px;
-  font-family: var(--title-font);
-  font-size: 36px;
-  letter-spacing: 0.6px;
-  color: var(--font-color);
-  white-space: nowrap;
-}
-
-.description {
-  margin: 0;
-  font-family: var(--normal-font);
-  font-size: 18px;
-  letter-spacing: 0.6px;
-  color: var(--font-color-light);
-  white-space: nowrap;
 }
 
 @keyframes move {
@@ -87,11 +89,15 @@ $scroll-indicator-height: 200px;
 .scroll_indicator {
   position: absolute;
   bottom: 0;
-  left: 30px;
+  left: 12px;
   width: 2px;
   height: $scroll-indicator-height;
   background: #efece9;
   overflow: hidden;
+
+  @include mediaquery(sm) {
+    padding: 30px;
+  }
 
   &::before {
     content: '';
@@ -101,7 +107,6 @@ $scroll-indicator-height: 200px;
     width: inherit;
     height: inherit;
     background: linear-gradient(#efece9, var(--accent-color));
-    opacity: 1;
 
     animation-name: move;
     animation-duration: 1.8s;
