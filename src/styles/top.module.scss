@@ -96,7 +96,7 @@ $scroll-indicator-height: 200px;
   overflow: hidden;
 
   @include mediaquery(sm) {
-    padding: 30px;
+    left: 30px;
   }
 
   &::before {
