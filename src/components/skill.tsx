@@ -57,12 +57,46 @@ const experiences = [
       'Slack',
     ],
   },
+  {
+    date: '2020.12-2021.4',
+    name: 'ランディングページ作成ツール開発',
+    role: 'Webアプリの設計/開発を担当',
+    skill: [
+      'HTML',
+      'CSS',
+      'JavaScript',
+      'Python',
+      'Django',
+      'PostgresSQL',
+      'GitHub',
+      'Figma',
+      'Slack',
+    ],
+  },
+  {
+    date: '2020.10-現在',
+    name: 'ストリームデータ処理基盤開発',
+    role: 'プラグイン/Webアプリの設計/開発/テストを担当',
+    skill: [
+      'HTML',
+      'CSS',
+      'TypeScript',
+      'React.js',
+      'Java',
+      'Python',
+      'Apache Kafka',
+      'Apache Flink',
+      'GitHub',
+      'Slack',
+    ],
+  },
 ];
 
 const skills = [
   {
     set: [
       [{ name: 'C', level: 'bussiness' }],
+      [{ name: 'Java', level: 'bussiness' }],
       [{ name: 'HTML5', level: 'bussiness' }],
       [
         { name: 'CSS3', level: 'bussiness' },
@@ -113,6 +147,7 @@ const skills = [
       [
         { name: 'Adobe XD', level: 'bussiness' },
         { name: 'inVision', level: 'bussiness' },
+        { name: 'Figma', level: 'bussiness' },
       ],
       [{ name: 'Slack', level: 'bussiness' }],
     ],
