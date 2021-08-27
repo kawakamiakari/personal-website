@@ -1,12 +1,9 @@
 import scrollTo from 'gatsby-plugin-smoothscroll';
-import React, { Component } from 'react';
-import { throttle } from 'throttle-debounce';
+import React, { useContext } from 'react';
+
+import { AppContext } from '../components/store';
 
 import SidemenuStyles from '../styles/sidemenu.module.scss';
-
-interface Props {
-  siteTitle: string;
-}
 
 function inactive() {
   const links = document.getElementsByClassName(`${SidemenuStyles.link}`);
@@ -44,62 +41,34 @@ const Nav = ({ text, target }) => {
   );
 };
 
-class Sidemenu extends Component<Props, {}> {
-  public componentDidMount() {
-    window.addEventListener(
-      'scroll',
-      throttle(100, () => {
-        this.getRect();
-      }),
-      false
-    );
-  }
+const Sidemenu = React.memo(({ siteTitle }) => {
+  const { page } = useContext(AppContext);
 
-  public render() {
-    return (
-      <div
-        id="sidemenu"
-        className={`${SidemenuStyles.container} ${SidemenuStyles.hidden}`}
-      >
-        <NavTitle text={this.props.siteTitle} target="top" />
-        <div className={SidemenuStyles.navs}>
-          <Nav text="ワタシ" target="about" />
-          <Nav text="スキル" target="skill" />
-          <Nav text="ワーク" target="work" />
-          <div className={SidemenuStyles.underline} />
-        </div>
-      </div>
-    );
-  }
-
-  private getRect() {
-    const scrollTarget = {
-      top: document.querySelector('#top'),
-      about: document.querySelector('#about'),
-      skill: document.querySelector('#skill'),
-      work: document.querySelector('#work'),
-    };
-
-    let target;
-    for (const key of Object.keys(scrollTarget)) {
-      const clientRect = scrollTarget[key].getBoundingClientRect();
-      const clientRectTop = clientRect.top;
-
-      const innerHeight = window.innerHeight;
-      if (clientRectTop <= innerHeight / 2) {
-        target = key;
-      }
-    }
-
-    const sidemenu = document.querySelector('#sidemenu');
-    if (target === 'top') {
+  const sidemenu = document.querySelector('#sidemenu');
+  if (sidemenu) {
+    if (page === 'top') {
       sidemenu.classList.add(`${SidemenuStyles.hidden}`);
       inactive();
     } else {
       sidemenu.classList.remove(`${SidemenuStyles.hidden}`);
-      active(document.querySelector(`#nav-${target}`));
+      active(document.querySelector(`#nav-${page}`));
     }
   }
-}
+
+  return (
+    <div
+      id="sidemenu"
+      className={`${SidemenuStyles.container} ${SidemenuStyles.hidden}`}
+    >
+      <NavTitle text={siteTitle} target="top" />
+      <div className={SidemenuStyles.navs}>
+        <Nav text="ワタシ" target="about" />
+        <Nav text="スキル" target="skill" />
+        <Nav text="ワーク" target="work" />
+        <div className={SidemenuStyles.underline} />
+      </div>
+    </div>
+  );
+});
 
 export default Sidemenu;
