@@ -1,7 +1,7 @@
 import scrollTo from 'gatsby-plugin-smoothscroll';
 import React, { useContext } from 'react';
 
-import { AppContext } from '../components/store';
+import { AppStateContext } from '../components/store';
 
 import SidemenuStyles from '../styles/sidemenu.module.scss';
 
@@ -17,7 +17,7 @@ function active(nav) {
   nav.classList.add(`${SidemenuStyles.active}`);
 }
 
-const NavTitle = ({ text, target }) => {
+const NavTitle = React.memo(({ text, target }) => {
   return (
     <span
       id={`nav-${target}`}
@@ -27,9 +27,9 @@ const NavTitle = ({ text, target }) => {
       {text}
     </span>
   );
-};
+});
 
-const Nav = ({ text, target }) => {
+const Nav = React.memo(({ text, target }) => {
   return (
     <span
       id={`nav-${target}`}
@@ -39,10 +39,10 @@ const Nav = ({ text, target }) => {
       {text}
     </span>
   );
-};
+});
 
 const Sidemenu = React.memo(({ siteTitle }) => {
-  const { page } = useContext(AppContext);
+  const { page } = useContext(AppStateContext);
 
   const sidemenu = document.querySelector('#sidemenu');
   if (sidemenu) {
