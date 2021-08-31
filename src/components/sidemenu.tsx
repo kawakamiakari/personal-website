@@ -1,5 +1,5 @@
 import scrollTo from 'gatsby-plugin-smoothscroll';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { AppStateContext } from '../components/store';
 
@@ -44,8 +44,8 @@ const Nav = React.memo(({ text, target }) => {
 const Sidemenu = React.memo(({ siteTitle }) => {
   const { page } = useContext(AppStateContext);
 
-  const sidemenu = document.querySelector('#sidemenu');
-  if (sidemenu) {
+  useEffect(() => {
+    const sidemenu = document.querySelector('#sidemenu');
     if (page === 'top') {
       sidemenu.classList.add(`${SidemenuStyles.hidden}`);
       inactive();
@@ -53,7 +53,7 @@ const Sidemenu = React.memo(({ siteTitle }) => {
       sidemenu.classList.remove(`${SidemenuStyles.hidden}`);
       active(document.querySelector(`#nav-${page}`));
     }
-  }
+  }, [page]);
 
   return (
     <div
