@@ -5,6 +5,7 @@ import About from '../components/about';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Skill from '../components/skill';
+import { Provider } from '../components/store';
 import Top from '../components/top';
 import Work from '../components/work';
 
@@ -20,13 +21,15 @@ const IndexPage = () => {
   `);
 
   return (
-    <Layout siteTitle={data.site.siteMetadata.title}>
-      <SEO title="Home" />
-      <Top siteTitle={data.site.siteMetadata.title} />
-      <About />
-      <Skill />
-      <Work />
-    </Layout>
+    <Provider>
+      <Layout siteTitle={data.site.siteMetadata.title}>
+        <SEO title="Home" />
+        <Top siteTitle={data.site.siteMetadata.title} />
+        <About />
+        <Skill />
+        <Work />
+      </Layout>
+    </Provider>
   );
 };
 
