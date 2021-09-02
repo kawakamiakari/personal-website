@@ -26,7 +26,7 @@ const experiences = [
     skill: ['C', 'CUnit', 'Jenkins', 'git'],
   },
   {
-    date: '2019.4-2019.8',
+    date: '2019.4-2019.8, 2020.10-2020.12',
     name: '会場マッチングアプリ開発',
     role: 'Webアプリの設計/開発/テストを担当',
     skill: [
@@ -65,6 +65,8 @@ const experiences = [
       'HTML',
       'CSS',
       'JavaScript',
+      'TypeScript',
+      'React.js',
       'Python',
       'Django',
       'PostgresSQL',
@@ -74,7 +76,7 @@ const experiences = [
     ],
   },
   {
-    date: '2020.10-現在',
+    date: '2020.12-現在',
     name: 'ストリームデータ処理基盤開発',
     role: 'プラグイン/Webアプリの設計/開発/テストを担当',
     skill: [
