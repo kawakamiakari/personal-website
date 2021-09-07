@@ -23,24 +23,40 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 2021,
     sourceType: 'module',
   },
   settings: {
     react: {
       version: 'detect',
     },
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
   plugins: [
     'react',
+    'jsx-a11y',
+    'graphql',
+    'import',
     '@typescript-eslint',
     'prettier',
-    'graphql',
-    'jsx-a11y',
-    'import',
   ],
   rules: {
-    'no-anonymous-exports-page-templates': 'warn',
-    'limited-exports-page-templates': 'warn',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'no-use-before-define': 'off',
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
   },
 };
