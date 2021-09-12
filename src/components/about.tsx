@@ -23,8 +23,8 @@ const AboutPage = React.memo(() => {
 
   useEffect(() => {
     dispatch({
-      type: 'OnScrollFuncAdd',
-      value: updatePerspective,
+      type: 'onScrollFuncAdd',
+      func: updatePerspective,
     });
   }, [dispatch]);
 

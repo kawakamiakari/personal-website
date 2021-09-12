@@ -33,7 +33,7 @@ module.exports = {
     'import/resolver': {
       node: {
         paths: ['src'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
       },
     },
   },
@@ -58,5 +58,11 @@ module.exports = {
     ],
     'no-use-before-define': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'react/prop-types': ['error', { ignore: ['children'] }],
+    'react/require-default-props': 'off',
+    '@typescript-eslint/no-empty-function': [
+      'error',
+      { allow: ['arrowFunctions'] },
+    ],
   },
 };

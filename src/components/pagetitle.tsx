@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import PageTitleStyles from '../styles/pagetitle.module.scss';
 
-const PageTitle = ({ color, title }) => (
+type Props = {
+  color?: string;
+  title: string;
+};
+
+const PageTitle: React.FC<Props> = ({ color = '#343530', title }) => (
   <div className={PageTitleStyles.container}>
     <p className={PageTitleStyles.pagetitle} style={{ color }}>
       {title}
@@ -11,15 +15,8 @@ const PageTitle = ({ color, title }) => (
     <div className={PageTitleStyles.underline} />
   </div>
 );
-
-PageTitle.propTypes = {
-  color: PropTypes.string,
-  title: PropTypes.string.isRequired,
-};
-
 PageTitle.defaultProps = {
-  color: `#343530`,
-  title: ``,
+  color: '#343530',
 };
 
 export default PageTitle;

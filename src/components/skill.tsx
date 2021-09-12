@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 
 import SkillStyles from '../styles/skill.module.scss';
 
-import PageTitle from '../components/pagetitle';
+import PageTitle from './pagetitle';
 
-const experiences = [
+interface Experience {
+  date: string;
+  name: string;
+  role: string;
+  skill: string[];
+}
+
+interface Skill {
+  set: { name: string; level: string }[][];
+  type: string;
+}
+
+const experiences: Experience[] = [
   {
     date: '2016.9-2017.2, 2018.4-2019.4',
     name: 'イベント向けIoTデバイス開発',
@@ -94,7 +106,7 @@ const experiences = [
   },
 ];
 
-const skills = [
+const skills: Skill[] = [
   {
     set: [
       [{ name: 'C', level: 'bussiness' }],
@@ -161,7 +173,7 @@ const skills = [
   },
 ];
 
-const Experiences = ({ experience }) => {
+const Experiences = ({ experience }: { experience: Experience }) => {
   const skill = experience.skill.join(' / ');
 
   return (
@@ -174,7 +186,7 @@ const Experiences = ({ experience }) => {
   );
 };
 
-const Skills = ({ skill }) => {
+const Skills = ({ skill }: { skill: Skill }) => {
   const set = skill.set
     .map(group => group.map(s => s.name).join(' / '))
     .join('<br />');
@@ -191,10 +203,13 @@ const Skills = ({ skill }) => {
 };
 
 class SkillPage extends Component {
-  private Experiences = experiences.map((experience, i) => (
-    <Experiences key={i} experience={experience} />
+  private Experiences = experiences.map(experience => (
+    <Experiences key={experience.name} experience={experience} />
   ));
-  private Skills = skills.map((skill, i) => <Skills key={i} skill={skill} />);
+
+  private Skills = skills.map(skill => (
+    <Skills key={skill.type} skill={skill} />
+  ));
 
   public render() {
     return (

@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
+
+import { AppStateContext } from './store';
 
 import TopStyles from '../styles/top.module.scss';
 
-interface Props {
-  siteTitle: string;
-}
+const TopPage: React.FC = () => {
+  const { siteTitle } = useContext(AppStateContext);
 
-class TopPage extends Component<Props, {}> {
-  public render() {
-    return (
-      <div id="top" className={`page ${TopStyles.page}`}>
-        <div className={TopStyles.container}>
-          <div className={TopStyles.background}>
-            <div className={TopStyles.letters}>
-              <p className={TopStyles.title}>{this.props.siteTitle}</p>
-              <p className={TopStyles.description}>web application engineer</p>
-            </div>
+  return (
+    <div id="top" className={`page ${TopStyles.page}`}>
+      <div className={TopStyles.container}>
+        <div className={TopStyles.background}>
+          <div className={TopStyles.letters}>
+            <p className={TopStyles.title}>{siteTitle}</p>
+            <p className={TopStyles.description}>web application engineer</p>
           </div>
         </div>
-        <div className={TopStyles.scroll_indicator} />
       </div>
-    );
-  }
-}
+      <div className={TopStyles.scroll_indicator} />
+    </div>
+  );
+};
 
 export default TopPage;
