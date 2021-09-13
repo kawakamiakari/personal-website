@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `カワカミ アカリ`,
-    description: `川上明里の職探し用ページ`,
+    description: `川上明里の職務経歴書`,
     author: `Kawakami Akari`,
   },
   plugins: [

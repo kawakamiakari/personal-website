@@ -34,7 +34,7 @@ export const AppDispatchContext = createContext<React.Dispatch<Action>>(
   () => {}
 );
 
-export const Provider: React.FC = ({ children }) => {
+const Provider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getPage = () => {
@@ -79,3 +79,5 @@ export const Provider: React.FC = ({ children }) => {
     </AppStateContext.Provider>
   );
 };
+
+export default Provider;

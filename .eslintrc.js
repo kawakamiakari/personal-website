@@ -57,6 +57,7 @@ module.exports = {
       },
     ],
     'no-use-before-define': 'off',
+    'no-unused-vars': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/prop-types': ['error', { ignore: ['children'] }],
     'react/require-default-props': 'off',
@@ -64,5 +65,6 @@ module.exports = {
       'error',
       { allow: ['arrowFunctions'] },
     ],
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
 };

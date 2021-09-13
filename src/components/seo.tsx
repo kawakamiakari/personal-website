@@ -6,11 +6,21 @@
  */
 
 import { graphql, useStaticQuery } from 'gatsby';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import Helmet from 'react-helmet';
 
-function SEO({ description, lang, meta, title }) {
+import { AppStateContext } from './store';
+import { PageLang } from '../utilities/constants';
+
+type Props = {
+  description?: string;
+  lang?: string;
+  meta?: any[];
+};
+
+const SEO: React.FC<Props> = ({ description = '', lang = 'ja', meta = [] }) => {
+  const { page } = useContext(AppStateContext);
+
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -32,15 +42,15 @@ function SEO({ description, lang, meta, title }) {
       htmlAttributes={{
         lang,
       }}
-      title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      title={PageLang.ja[page]}
+      titleTemplate={`${site.siteMetadata.title} | %s`}
       meta={[
         {
           content: metaDescription,
           name: `description`,
         },
         {
-          content: title,
+          content: site.siteMetadata.title,
           property: `og:title`,
         },
         {
@@ -60,7 +70,7 @@ function SEO({ description, lang, meta, title }) {
           name: `twitter:creator`,
         },
         {
-          content: title,
+          content: site.siteMetadata.title,
           name: `twitter:title`,
         },
         {
@@ -70,19 +80,6 @@ function SEO({ description, lang, meta, title }) {
       ].concat(meta)}
     />
   );
-}
-
-SEO.defaultProps = {
-  description: ``,
-  lang: `en`,
-  meta: [],
-};
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 };
 
 export default SEO;
