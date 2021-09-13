@@ -28,6 +28,7 @@ const NavTitle = React.memo(({ text, target }: NavProps) => {
     <span
       id={`nav-${target}`}
       className={`${SidemenuStyles.link} ${SidemenuStyles.title}`}
+      onClick={() => scrollTo(`#${target}`)}
       onKeyDown={() => scrollTo(`#${target}`)}
       role="menuitem"
       tabIndex={0}
@@ -42,6 +43,7 @@ const Nav = React.memo(({ text, target }: NavProps) => {
     <span
       id={`nav-${target}`}
       className={SidemenuStyles.link}
+      onClick={() => scrollTo(`#${target}`)}
       onKeyDown={() => scrollTo(`#${target}`)}
       role="menuitem"
       tabIndex={0}
