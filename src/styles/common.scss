@@ -32,6 +32,11 @@ html {
   }
 }
 
+::selection {
+  background-color: var(--accent-color-light);
+  color: #fff;
+}
+
 .page {
   display: block;
   min-height: 100vh;
