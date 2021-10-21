@@ -32,6 +32,11 @@ html {
   }
 }
 
+::selection {
+  background-color: var(--accent-color-light);
+  color: #fff;
+}
+
 .page {
   display: block;
   min-height: 100vh;
@@ -51,6 +56,6 @@ html {
   }
 
   @include mediaquery(xl) {
-    padding: 80px calc((100vw - 1140px) / 2 + 28px);
+    padding: 80px calc((100vw - 1140px) / 2 + 48px);
   }
 }

@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 
 import SkillStyles from '../styles/skill.module.scss';
 
-import PageTitle from '../components/pagetitle';
+import PageTitle from './pagetitle';
 
-const experiences = [
+interface Experience {
+  date: string;
+  name: string;
+  role: string;
+  skill: string[];
+}
+
+interface Skill {
+  set: { name: string; level: string }[][];
+  type: string;
+}
+
+const experiences: Experience[] = [
   {
     date: '2016.9-2017.2, 2018.4-2019.4',
     name: 'イベント向けIoTデバイス開発',
@@ -26,7 +38,7 @@ const experiences = [
     skill: ['C', 'CUnit', 'Jenkins', 'git'],
   },
   {
-    date: '2019.4-2019.8',
+    date: '2019.4-2019.8, 2020.10-2020.12',
     name: '会場マッチングアプリ開発',
     role: 'Webアプリの設計/開発/テストを担当',
     skill: [
@@ -65,6 +77,8 @@ const experiences = [
       'HTML',
       'CSS',
       'JavaScript',
+      'TypeScript',
+      'React.js',
       'Python',
       'Django',
       'PostgresSQL',
@@ -74,7 +88,7 @@ const experiences = [
     ],
   },
   {
-    date: '2020.10-現在',
+    date: '2020.12-2021.9',
     name: 'ストリームデータ処理基盤開発',
     role: 'プラグイン/Webアプリの設計/開発/テストを担当',
     skill: [
@@ -90,9 +104,21 @@ const experiences = [
       'Slack',
     ],
   },
+  {
+    date: '2021.10-現在',
+    name: 'テスト採点システム開発',
+    role: '採点用Webアプリの設計を担当',
+    skill: ['HTML', 'CSS', 'Java', 'Spring Boot', 'GitHub'],
+  },
+  {
+    date: '2021.10-現在',
+    name: 'おもちゃのサブスクサービス開発',
+    role: '管理用Webアプリの設計を担当',
+    skill: ['HTML', 'CSS', 'TypeScript', 'React.js', 'GitHub'],
+  },
 ];
 
-const skills = [
+const skills: Skill[] = [
   {
     set: [
       [{ name: 'C', level: 'bussiness' }],
@@ -159,7 +185,7 @@ const skills = [
   },
 ];
 
-const Experiences = ({ experience }) => {
+const Experiences = ({ experience }: { experience: Experience }) => {
   const skill = experience.skill.join(' / ');
 
   return (
@@ -172,7 +198,7 @@ const Experiences = ({ experience }) => {
   );
 };
 
-const Skills = ({ skill }) => {
+const Skills = ({ skill }: { skill: Skill }) => {
   const set = skill.set
     .map(group => group.map(s => s.name).join(' / '))
     .join('<br />');
@@ -189,10 +215,13 @@ const Skills = ({ skill }) => {
 };
 
 class SkillPage extends Component {
-  private Experiences = experiences.map((experience, i) => (
-    <Experiences key={i} experience={experience} />
+  private Experiences = experiences.map(experience => (
+    <Experiences key={experience.name} experience={experience} />
   ));
-  private Skills = skills.map((skill, i) => <Skills key={i} skill={skill} />);
+
+  private Skills = skills.map(skill => (
+    <Skills key={skill.type} skill={skill} />
+  ));
 
   public render() {
     return (

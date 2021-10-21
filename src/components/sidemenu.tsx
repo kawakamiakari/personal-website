@@ -1,48 +1,60 @@
 import scrollTo from 'gatsby-plugin-smoothscroll';
 import React, { useContext, useEffect } from 'react';
 
-import { AppStateContext } from '../components/store';
+import { Page } from '../types/page';
+import { AppStateContext } from './store';
 
 import SidemenuStyles from '../styles/sidemenu.module.scss';
 
-function inactive() {
-  const links = document.getElementsByClassName(`${SidemenuStyles.link}`);
-  for (const link of links) {
-    link.classList.remove(`${SidemenuStyles.active}`);
-  }
+interface NavProps {
+  text: string;
+  target: Page;
 }
 
-function active(nav) {
+function inactive() {
+  const links = document.getElementsByClassName(`${SidemenuStyles.link}`);
+  Array.from(links).forEach(link =>
+    link.classList.remove(`${SidemenuStyles.active}`)
+  );
+}
+
+function active(nav: HTMLElement) {
   inactive();
   nav.classList.add(`${SidemenuStyles.active}`);
 }
 
-const NavTitle = React.memo(({ text, target }) => {
+const NavTitle = React.memo(({ text, target }: NavProps) => {
   return (
     <span
       id={`nav-${target}`}
       className={`${SidemenuStyles.link} ${SidemenuStyles.title}`}
       onClick={() => scrollTo(`#${target}`)}
+      onKeyDown={() => scrollTo(`#${target}`)}
+      role="menuitem"
+      tabIndex={0}
     >
       {text}
     </span>
   );
 });
 
-const Nav = React.memo(({ text, target }) => {
+const Nav = React.memo(({ text, target }: NavProps) => {
   return (
     <span
       id={`nav-${target}`}
       className={SidemenuStyles.link}
       onClick={() => scrollTo(`#${target}`)}
+      onKeyDown={() => scrollTo(`#${target}`)}
+      role="menuitem"
+      tabIndex={0}
     >
       {text}
     </span>
   );
 });
 
-const Sidemenu = React.memo(({ siteTitle }) => {
-  const { page } = useContext(AppStateContext);
+const Sidemenu = React.memo(() => {
+  const { siteTitle, page } = useContext(AppStateContext);
 
   useEffect(() => {
     const sidemenu = document.querySelector('#sidemenu');
@@ -59,6 +71,7 @@ const Sidemenu = React.memo(({ siteTitle }) => {
     <div
       id="sidemenu"
       className={`${SidemenuStyles.container} ${SidemenuStyles.hidden}`}
+      role="menu"
     >
       <NavTitle text={siteTitle} target="top" />
       <div className={SidemenuStyles.navs}>

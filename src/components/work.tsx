@@ -7,9 +7,18 @@ import KaleidoscopeThumbnailGIF from '../images/kaleidoscope_thumbnail.gif';
 import ThisSiteJPG from '../images/thissite.jpg';
 import ThisSiteThumbnailJPG from '../images/thissite_thumbnail.jpg';
 
-import PageTitle from '../components/pagetitle';
+import PageTitle from './pagetitle';
 
-const works = [
+type W = {
+  discription: string;
+  skills: string[];
+  thumbnail: any;
+  thumbnailHover: any;
+  title: string;
+  url: string;
+};
+
+const works: W[] = [
   {
     discription: '動的背景のnpmモジュール',
     skills: ['HTML', 'css', 'JavaScript', 'TypeScript', 'gulp'],
@@ -28,11 +37,16 @@ const works = [
   },
 ];
 
-const Work = ({ work }) => {
+const Work = ({ work }: { work: W }) => {
   const skills = work.skills.join(' / ');
 
   return (
-    <a href={work.url} target="_blank" className={SkillStyles.work}>
+    <a
+      href={work.url}
+      target="_blank"
+      className={SkillStyles.work}
+      rel="noreferrer"
+    >
       <div className={SkillStyles.background}>
         <img src={work.thumbnail} alt="" className={SkillStyles.thumbnail} />
         <img
@@ -51,7 +65,7 @@ const Work = ({ work }) => {
 };
 
 class WorkPage extends Component {
-  private Works = works.map((work, i) => <Work key={i} work={work} />);
+  private Works = works.map(work => <Work key={work.title} work={work} />);
 
   public render() {
     return (

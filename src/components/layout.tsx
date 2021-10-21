@@ -5,7 +5,6 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import '../styles/layout.css';
@@ -13,27 +12,23 @@ import '../styles/layout.css';
 import '../styles/common.scss';
 import '../styles/layout.scss';
 
-import Background from '../components/background';
-import Sidemenu from '../components/sidemenu';
+import Background from './background';
+import Sidemenu from './sidemenu';
 
-const Layout = ({ children, siteTitle }) => {
+const Layout: React.FC = ({ children }) => {
   return (
     <>
       <div className="background">
         <Background />
       </div>
       <div className="sidemenu">
-        <Sidemenu siteTitle={siteTitle} />
+        <Sidemenu />
       </div>
       <div className="main_contents">
         <main>{children}</main>
       </div>
     </>
   );
-};
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

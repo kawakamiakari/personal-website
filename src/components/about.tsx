@@ -3,8 +3,8 @@ import React, { useContext, useEffect } from 'react';
 import ProfileJPG from '../images/profile.jpg';
 import AboutStyles from '../styles/about.module.scss';
 
-import PageTitle from '../components/pagetitle';
-import { AppDispatchContext } from '../components/store';
+import PageTitle from './pagetitle';
+import { AppDispatchContext } from './store';
 
 const AboutPage = React.memo(() => {
   const dispatch = useContext(AppDispatchContext);
@@ -14,7 +14,7 @@ const AboutPage = React.memo(() => {
       `.${AboutStyles.parallax}`
     );
     const clientRectTop = element.getBoundingClientRect().top;
-    const innerHeight = window.innerHeight;
+    const { innerHeight } = window;
 
     const perspectiveY =
       ((innerHeight / 2 - clientRectTop) / element.clientHeight) * 100;
@@ -23,10 +23,10 @@ const AboutPage = React.memo(() => {
 
   useEffect(() => {
     dispatch({
-      type: 'OnScrollFuncAdd',
-      value: updatePerspective,
+      type: 'onScrollFuncAdd',
+      func: updatePerspective,
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div id="about" className={`page ${AboutStyles.page}`}>
@@ -49,7 +49,9 @@ const AboutPage = React.memo(() => {
             <br />
             工学部情報系学科卒。
             <br />
-            好き) ねこ/旅行/ゲーム/焼肉/炭酸/絵を描くこと
+            好き → ねこ/旅行/ゲーム/焼肉/炭酸/絵を描くこと
+            <br />
+            キャンプと熱帯魚(淡水)はじめました。
           </p>
           <p>
             ソフトウェアを通じて

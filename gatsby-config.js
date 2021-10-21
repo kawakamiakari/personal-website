@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `カワカミ アカリ`,
-    description: `川上明里の転職活動用ページ`,
+    description: `川上明里の職務経歴書`,
     author: `Kawakami Akari`,
   },
   plugins: [
@@ -28,7 +28,22 @@ module.exports = {
     `gatsby-plugin-smoothscroll`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-typescript`,
-    `gatsby-plugin-tslint`,
+    {
+      resolve: 'gatsby-plugin-eslint',
+      options: {
+        stages: ['develop'],
+        extensions: ['js', 'jsx', 'ts', 'tsx', 'd.ts'],
+        exclude: ['node_modules', 'bower_components', '.cache', 'public'],
+        emitWarning: true,
+        failOnError: true,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-tsconfig-paths`,
+      options: {
+        configFile: `${__dirname}/tsconfig.json`,
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

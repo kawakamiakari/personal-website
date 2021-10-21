@@ -16,14 +16,14 @@
 .experiences,
 .skills {
   padding: 0;
-  width: unquote('min(540px, 100%)');
+  width: unquote('min(520px, 100%)');
   font-family: var(--normal-font);
   font-size: 1rem;
   color: var(--font-color);
   text-align: left;
 
   @include mediaquery(sm) {
-    padding: 0 40px;
+    padding: 0 32px;
   }
 
   .container {

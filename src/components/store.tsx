@@ -1,38 +1,40 @@
+// import { graphql, useStaticQuery } from 'gatsby';
 import React, { createContext, useEffect, useReducer } from 'react';
 import { throttle } from 'throttle-debounce';
 
+import { Page } from '../types/page';
+import { Action } from '../utilities/action';
+import reducer from '../utilities/reducer';
+
+// const data = useStaticQuery(graphql`
+//   query SiteTitleQuery {
+//     site {
+//       siteMetadata {
+//         title
+//       }
+//     }
+//   }
+// `);
+
 export interface Store {
-  page: 'top' | 'about' | 'skill' | 'work';
+  siteTitle: string;
+  page: Page;
   onScroll: Array<() => void>;
 }
 
 const initialState: Store = {
+  // siteTitle: data.site.siteMetadata.title,
+  siteTitle: 'カワカミアカリ',
   page: 'top',
   onScroll: [],
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'OnScrollFuncAdd':
-      state.onScroll.push(action.value);
-      return state;
-
-    case 'pageChange':
-      return action.value !== state.page
-        ? { ...state, page: action.value }
-        : state;
-
-    default:
-      return state;
-  }
-};
-
 export const AppStateContext = createContext<Store>(initialState);
-export const AppDispatchContext = createContext<
-  React.Dispatch<React.SetStateAction<Store>>
->(() => {});
+export const AppDispatchContext = createContext<React.Dispatch<Action>>(
+  () => {}
+);
 
-export const Provider = ({ children }) => {
+const Provider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getPage = () => {
@@ -43,14 +45,14 @@ export const Provider = ({ children }) => {
       work: document.querySelector('#work'),
     };
 
-    let page;
-    for (const key of Object.keys(pages)) {
-      const clientRectTop = pages[key].getBoundingClientRect().top;
-      const innerHeight = window.innerHeight;
+    let page: Page;
+    Object.keys(pages).forEach(key => {
+      const clientRectTop = pages[key as Page].getBoundingClientRect().top;
+      const { innerHeight } = window;
       if (clientRectTop <= innerHeight / 2) {
-        page = key;
+        page = key as Page;
       }
-    }
+    });
 
     return page;
   };
@@ -59,7 +61,7 @@ export const Provider = ({ children }) => {
     const page = getPage();
     dispatch({
       type: 'pageChange',
-      value: page,
+      page,
     });
 
     state.onScroll.forEach(func => func());
@@ -67,7 +69,7 @@ export const Provider = ({ children }) => {
 
   useEffect(() => {
     window.addEventListener('scroll', throttle(200, onScroll), false);
-  }, []);
+  }, [onScroll, state.onScroll]);
 
   return (
     <AppStateContext.Provider value={state}>
@@ -77,3 +79,5 @@ export const Provider = ({ children }) => {
     </AppStateContext.Provider>
   );
 };
+
+export default Provider;

@@ -1,0 +1,15 @@
+{
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["dom", "es2017"],
+    "jsx": "react",
+    "strict": true,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "typeRoots": ["src/types/"],
+    "moduleResolution": "node"
+  }
+}
