@@ -51,6 +51,6 @@ html {
   }
 
   @include mediaquery(xl) {
-    padding: 80px calc((100vw - 1140px) / 2 + 28px);
+    padding: 80px calc((100vw - 1140px) / 2 + 48px);
   }
 }
