@@ -110,12 +110,6 @@ const experiences: Experience[] = [
     role: '採点用Webアプリの設計を担当',
     skill: ['HTML', 'CSS', 'Java', 'Spring Boot', 'GitHub'],
   },
-  {
-    date: '2021.10-現在',
-    name: 'おもちゃのサブスクサービス開発',
-    role: '管理用Webアプリの設計を担当',
-    skill: ['HTML', 'CSS', 'TypeScript', 'React.js', 'GitHub'],
-  },
 ];
 
 const skills: Skill[] = [
