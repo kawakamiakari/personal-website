@@ -23,12 +23,17 @@ const experiences: Experience[] = [
     role: 'モバイル端末用デバイス操作アプリの設計/開発/テストを担当',
     skill: [
       'HTML',
-      'SCSS',
+      'Sass',
       'JavaScript',
+      'TypeScript',
+      'shell script',
       'AngularJS',
-      'Bootstrap',
+      'Angular',
       'jQuery',
+      'Bootstrap',
       'GitLab',
+      'Raspberry pi',
+      'IoT',
     ],
   },
   {
@@ -43,16 +48,17 @@ const experiences: Experience[] = [
     role: 'Webアプリの設計/開発/テストを担当',
     skill: [
       'HTML',
-      'SCSS',
+      'Sass',
       'TypeScript',
       'Python',
-      'Bootstrap',
       'Angular',
-      'Django',
+      'Bootstrap',
       'Jasmine',
       'Karma',
+      'Django',
       'GitLab',
       'GitLab CI',
+      'AI',
     ],
   },
   {
@@ -61,12 +67,13 @@ const experiences: Experience[] = [
     role: 'Webアプリのスタイルを担当',
     skill: [
       'HTML',
-      'SCSS',
+      'Sass',
       'TypeScript',
       'Vue.js',
       'GitHub',
       'inVision',
       'Slack',
+      'AI',
     ],
   },
   {
@@ -78,8 +85,8 @@ const experiences: Experience[] = [
       'CSS',
       'JavaScript',
       'TypeScript',
-      'React.js',
       'Python',
+      'React.js',
       'Django',
       'PostgresSQL',
       'GitHub',
@@ -90,14 +97,15 @@ const experiences: Experience[] = [
   {
     date: '2020.12-2021.9',
     name: 'ストリームデータ処理基盤開発',
-    role: 'プラグイン/Webアプリの設計/開発/テストを担当',
+    role: `プラグイン/Webアプリの設計/開発/テストを担当
+    プロジェクトリーダー`,
     skill: [
       'HTML',
       'CSS',
       'TypeScript',
-      'React.js',
       'Java',
       'Python',
+      'React.js',
       'Apache Kafka',
       'Apache Flink',
       'GitHub',
@@ -105,10 +113,45 @@ const experiences: Experience[] = [
     ],
   },
   {
-    date: '2021.10-現在',
+    date: '2021.10-2022.03',
     name: 'テスト採点システム開発',
-    role: '採点用Webアプリの設計を担当',
-    skill: ['HTML', 'CSS', 'Java', 'Spring Boot', 'GitHub'],
+    role: `採点用Webアプリの設計/開発/テストを担当
+    プロジェクトリーダー`,
+    skill: ['HTML', 'CSS', 'Java', 'Spring Boot', 'MySQL', 'GitHub'],
+  },
+  {
+    date: '2021.10-2022.08',
+    name: 'おもちゃのレンタルサービス業務システム開発',
+    role: 'Webアプリの開発を担当',
+    skill: [
+      'HTML',
+      'Sass',
+      'TypeScript',
+      'React.js',
+      'DynamoDB',
+      'Docker',
+      'AWS Amplify',
+      'GitHub',
+      'Figma',
+      'Slack',
+    ],
+  },
+  {
+    date: '2022.04-2022.08, 2023.04-現在',
+    name: '営業職向けDX推進アプリ開発',
+    role: `採点用Webアプリの設計を担当
+    テックリード`,
+    skill: [
+      'HTML',
+      'Sass',
+      'TypeScript',
+      'React.js',
+      'DynamoDB',
+      'AWS Amplify',
+      'git',
+      'miro',
+      'Figma',
+    ],
   },
 ];
 
@@ -120,7 +163,7 @@ const skills: Skill[] = [
       [{ name: 'HTML5', level: 'bussiness' }],
       [
         { name: 'CSS3', level: 'bussiness' },
-        { name: 'SCSS', level: 'bussiness' },
+        { name: 'Sass', level: 'bussiness' },
       ],
       [
         { name: 'JavaScript', level: 'bussiness' },
@@ -174,7 +217,15 @@ const skills: Skill[] = [
     type: 'ツール',
   },
   {
-    set: [[{ name: '応用情報技術者試験合格 (2017.12)', level: 'bussiness' }]],
+    set: [
+      [{ name: '応用情報技術者試験合格 (2017.12)', level: 'bussiness' }],
+      [
+        {
+          name: 'AWS Certified Cloud Practitioner (2022.05)',
+          level: 'bussiness',
+        },
+      ],
+    ],
     type: '資格',
   },
 ];
