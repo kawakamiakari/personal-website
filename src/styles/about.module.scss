@@ -80,3 +80,20 @@ $photo-size: 160px;
   font-size: 110%;
   font-weight: bold;
 }
+
+.contact {
+  margin-top: 1.75rem;
+
+  a {
+    margin-right: 0.875rem;
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    img {
+      max-width: 32px;
+    }
+  }
+}

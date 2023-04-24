@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 
 import ProfileJPG from '../images/profile.jpg';
+import GitHubIcon from '../images/github_icon.png';
+import TwitterIcon from '../images/twitter_icon.png';
 import AboutStyles from '../styles/about.module.scss';
 
 import PageTitle from './pagetitle';
@@ -57,6 +59,14 @@ const AboutPage = React.memo(() => {
             ソフトウェアを通じて
             <br />
             <b>体験を売る仕事がしたい</b>と思っています。
+          </p>
+          <p className={AboutStyles.contact}>
+            <a href="https://github.com/kawakamiakari">
+              <img src={GitHubIcon} alt="GitHub" />
+            </a>
+            <a href="https://twitter.com/kawakamiakari">
+              <img src={TwitterIcon} alt="twitter" />
+            </a>
           </p>
         </div>
       </div>
