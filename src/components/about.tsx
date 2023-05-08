@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import ProfileJPG from '../images/profile.jpg';
-import GitHubIcon from '../images/github_icon.png';
+import GitHubIcon from '../images/github_icon.svg';
 import TwitterIcon from '../images/twitter_icon.png';
 import AboutStyles from '../styles/about.module.scss';
 

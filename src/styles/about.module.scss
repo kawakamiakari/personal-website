@@ -87,9 +87,10 @@ $photo-size: 160px;
   a {
     margin-right: 0.875rem;
     transition: all 0.15s ease-in-out;
+    opacity: 0.625;
 
     &:hover {
-      opacity: 0.6;
+      opacity: 0.225;
     }
 
     img {

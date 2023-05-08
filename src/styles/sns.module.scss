@@ -1,0 +1,26 @@
+.sns {
+  padding: 30px;
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+
+  a {
+    margin-right: 0.875rem;
+    transition: all 0.15s ease-in-out;
+    opacity: 0.625;
+
+    &:hover {
+      opacity: 0.225;
+    }
+
+    img {
+      margin: 0;
+      max-width: 32px;
+    }
+  }
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
