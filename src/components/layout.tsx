@@ -14,6 +14,7 @@ import '../styles/layout.scss';
 
 import Background from './background';
 import Sidemenu from './sidemenu';
+import SNS from './sns';
 
 const Layout: React.FC = ({ children }) => {
   return (
@@ -26,6 +27,9 @@ const Layout: React.FC = ({ children }) => {
       </div>
       <div className="main_contents">
         <main>{children}</main>
+      </div>
+      <div className="sns">
+        <SNS />
       </div>
     </>
   );
