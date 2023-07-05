@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 
 import SkillStyles from '../styles/work.module.scss';
 
@@ -64,17 +64,15 @@ const Work = ({ work }: { work: W }) => {
   );
 };
 
-class WorkPage extends Component {
-  private Works = works.map(work => <Work key={work.title} work={work} />);
+const WorkPage: FC = () => {
+  const Works = works.map(work => <Work key={work.title} work={work} />);
 
-  public render() {
-    return (
-      <div id="work" className={`page ${SkillStyles.page}`}>
-        <PageTitle color="#dde1df" title="ワーク" />
-        <div className={SkillStyles.works}>{this.Works}</div>
-      </div>
-    );
-  }
-}
+  return (
+    <div id="work" className={`page ${SkillStyles.page}`}>
+      <PageTitle color="#dde1df" title="ワーク" />
+      <div className={SkillStyles.works}>{Works}</div>
+    </div>
+  );
+};
 
 export default WorkPage;

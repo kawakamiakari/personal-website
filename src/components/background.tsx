@@ -1,7 +1,7 @@
 import Kaleidoscope from 'ak-kaleidoscope';
 import React, { useEffect } from 'react';
 
-function Background() {
+const Background: React.FC = () => {
   useEffect(() => {
     const kaleidoscope = new Kaleidoscope({
       color: ['#F3F1EF', '#F3F1EF', '#F5F7F6', '#F5F7F6', '#FDF3F7'],
@@ -23,6 +23,6 @@ function Background() {
   return (
     <canvas className="kaleidoscope" style={{ backgroundColor: `#fdfdfc` }} />
   );
-}
+};
 
 export default Background;

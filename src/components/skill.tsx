@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import SkillStyles from '../styles/skill.module.scss';
 
@@ -259,27 +259,23 @@ const Skills = ({ skill }: { skill: Skill }) => {
   );
 };
 
-class SkillPage extends Component {
-  private Experiences = experiences.map(experience => (
+const SkillPage: React.FC = () => {
+  const exp = experiences.map(experience => (
     <Experiences key={experience.name} experience={experience} />
   ));
 
-  private Skills = skills.map(skill => (
-    <Skills key={skill.type} skill={skill} />
-  ));
+  const skl = skills.map(skill => <Skills key={skill.type} skill={skill} />);
 
-  public render() {
-    return (
-      <div id="skill" className={`page ${SkillStyles.page}`}>
-        <PageTitle title="スキル" />
-        <div className={SkillStyles.contents}>
-          <div className={SkillStyles.experiences}>{this.Experiences}</div>
-          <div className={SkillStyles.border} />
-          <div className={SkillStyles.skills}>{this.Skills}</div>
-        </div>
+  return (
+    <div id="skill" className={`page ${SkillStyles.page}`}>
+      <PageTitle title="スキル" />
+      <div className={SkillStyles.contents}>
+        <div className={SkillStyles.experiences}>{exp}</div>
+        <div className={SkillStyles.border} />
+        <div className={SkillStyles.skills}>{skl}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default SkillPage;
