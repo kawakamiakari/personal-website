@@ -18,7 +18,7 @@
     "gatsby-source-filesystem": "^2.1.40",
     "gatsby-transformer-sharp": "^2.3.7",
     "lodash": "^4.17.15",
-    "node-sass": "^7.0.0",
+    "node-sass": "^9.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^16.12.0",
